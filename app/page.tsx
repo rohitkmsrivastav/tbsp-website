@@ -37,64 +37,12 @@ const adoption = [
   'Evaluate a defined outcome against an agreed baseline.',
 ];
 
-function ProductWorkflow() {
-  const stages = ['Spec', 'Code', 'Review', 'Gate', 'Release', 'On-call'];
-
-  return (
-    <figure className="product-workflow" aria-label="Illustrative TBSP product workflow">
-      <div className="product-workflow-topline">
-        <span>ILLUSTRATIVE WORKFLOW / ENG-2841</span>
-        <span className="workflow-status">HUMAN REVIEW</span>
-      </div>
-      <div className="product-workflow-title">
-        <span>Customer identity service</span>
-        <h2>Add regional failover</h2>
-      </div>
-      <div className="source-row" aria-label="Connected sources">
-        <span>Jira request</span>
-        <span>Service code</span>
-        <span>Architecture decision</span>
-        <span>Deploy history</span>
-        <span>Runtime signals</span>
-      </div>
-      <div className="product-stage-row">
-        {stages.map((stage, index) => (
-          <div className={stage === 'Gate' ? 'product-stage active' : 'product-stage'} key={stage}>
-            <b>{String(index + 1).padStart(2, '0')}</b>
-            <span>{stage}</span>
-          </div>
-        ))}
-      </div>
-      <div className="product-evidence-grid">
-        <article>
-          <span>REQUIREMENT</span>
-          <p>Regional failure must preserve active customer sessions.</p>
-          <small>Source: ENG-2841 · one clarification resolved</small>
-        </article>
-        <article>
-          <span>REVIEW FINDING</span>
-          <p>Health-check state remains tied to the primary region.</p>
-          <small>Evidence: auth/health.ts · deployment configuration</small>
-        </article>
-        <article className="gate-card">
-          <span>HUMAN GATE</span>
-          <p>Platform lead reviews the finding before release.</p>
-          <small>Decision and supporting evidence are retained</small>
-        </article>
-      </div>
-      <figcaption>
-        Representative product workflow. Final interfaces may vary by deployment and connected systems.
-      </figcaption>
-    </figure>
-  );
-}
-
 export default function Home() {
   return (
     <PageFrame>
       <section className="hero page-shell" id="top">
-        <div className="hero-copy">
-          <p className="eyebrow">Agentic software development for enterprise engineering</p>
+        <p className="eyebrow">Agentic software development for enterprise engineering</p>
+        <div className="hero-heading">
           <h1>
             Ship with the
             <br />
@@ -105,19 +53,18 @@ export default function Home() {
             They share system context, executable playbooks, and governed human
             decisions from the first request through production.
           </p>
-          <div className="hero-actions">
-            <a className="button button-accent" href="#workflow">
-              Inspect the workflow <Arrow />
-            </a>
-            <a className="button button-outline" href={siteHref('/demo')}>
-              Plan an evaluation
-            </a>
-            <a className="text-link" href={siteHref('/docs')}>
-              Read the docs <Arrow />
-            </a>
-          </div>
         </div>
-        <ProductWorkflow />
+        <div className="hero-actions">
+          <a className="button button-accent" href="#workflow">
+            Inspect the workflow <Arrow />
+          </a>
+          <a className="button button-outline" href={siteHref('/demo')}>
+            Plan an evaluation
+          </a>
+          <a className="text-link" href={siteHref('/docs')}>
+            Read the docs <Arrow />
+          </a>
+        </div>
       </section>
 
       <aside className="origin-strip">
@@ -273,25 +220,11 @@ export default function Home() {
         <a className="section-link" href={siteHref('/surfaces')}>See where TBSP works <Arrow /></a>
       </section>
 
-      <section className="evidence-section">
-        <div className="page-shell evidence-layout">
-          <div>
-            <p className="section-index section-index-light">06 / BUILT FROM THE WORK</p>
-            <h2>Capillary&apos;s engineering reality shaped the product boundary.</h2>
-          </div>
-          <div className="evidence-list">
-            <article><span>THE PROBLEM</span><p>Critical context lived across requests, code, delivery controls, and production systems.</p></article>
-            <article><span>THE PRODUCT TEST</span><p>Carry one work item through definition, implementation, review, release, and investigation.</p></article>
-            <article><span>THE EVIDENCE</span><p>Keep sources, generated artifacts, tool actions, human decisions, and the deployed version connected.</p></article>
-            <a href={siteHref('/about')}>Read the origin story <Arrow /></a>
-          </div>
-        </div>
-      </section>
 
       <section className="enterprise" id="enterprise">
         <div className="page-shell enterprise-layout">
           <div>
-            <p className="section-index">07 / ENTERPRISE EVALUATION</p>
+            <p className="section-index">06 / ENTERPRISE EVALUATION</p>
             <h2>Begin with one workflow. Expand on shared context.</h2>
             <p className="enterprise-lede">Evaluate TBSP against real work, defined access, and an outcome your team already understands.</p>
             <a className="button button-dark" href={siteHref('/demo')}>Plan an enterprise evaluation <Arrow /></a>
@@ -302,17 +235,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="resources page-shell" id="resources">
-        <p className="section-index">08 / FIELD NOTES</p>
-        <div className="section-heading">
-          <h2>Inspect the system through real work.</h2>
-          <p>Illustrative walkthroughs make the product&apos;s inputs, reasoning, evidence, and boundaries concrete.</p>
-        </div>
-        <div className="resource-grid">
-          <article><span>WORKFLOW WALKTHROUGH · 12 MIN</span><h3>From an incomplete requirement to a reviewed change</h3><p>Follow one work item through Spec, Code, Review, and a named human Gate.</p><a href={siteHref('/resources/requirement-to-reviewed-change')}>Read the walkthrough <Arrow /></a></article>
-          <article><span>TECHNICAL GUIDE · 9 MIN</span><h3>Debugging with code, release, and runtime context</h3><p>See how a production signal connects to the deployed version and a governed fix.</p><a href={siteHref('/resources/context-based-debugging')}>Read the guide <Arrow /></a></article>
-        </div>
-      </section>
 
       <section className="closing" id="contact">
         <div className="page-shell closing-layout">
