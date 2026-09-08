@@ -5,47 +5,46 @@ import type { SyntheticEvent } from 'react';
 
 export function DemoBriefForm() {
   const [status, setStatus] = useState('');
-
   function submitBrief(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const value = (name: string) => {
-      const entry = form.get(name);
-      return typeof entry === 'string' ? entry : '';
-    };
-    const subject = `TBSP evaluation — ${value('company') || 'new request'}`;
-    const body = [
-      `Name: ${value('name')}`,
-      `Work email: ${value('email')}`,
-      `Company: ${value('company')}`,
-      `Workflow: ${value('workflow')}`,
-      '',
-      `What we should evaluate:`,
-      value('context'),
-    ].join('\n');
-
-    setStatus('Opening a pre-addressed email with your evaluation brief.');
-    window.location.href = `mailto:hello@tbsp.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setStatus(
+      'Demo booking is not open yet. Your details have not been sent or saved.',
+    );
   }
-
   return (
-    <form className="demo-form" onSubmit={submitBrief}>
+    <form className="demo-form" action="#" onSubmit={submitBrief}>
+      <p className="booking-notice">
+        <strong>Demo booking opens soon.</strong> This preview form does not
+        send or save your details.
+      </p>
       <div className="form-grid">
         <label>
           Name
-          <input name="name" autoComplete="name" required />
+          <input name="name" autoComplete="name" required maxLength={120} />
         </label>
         <label>
           Work email
-          <input name="email" type="email" autoComplete="email" required />
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            maxLength={254}
+          />
         </label>
         <label>
           Company
-          <input name="company" autoComplete="organization" required />
+          <input
+            name="company"
+            autoComplete="organization"
+            required
+            maxLength={180}
+          />
         </label>
         <label>
-          First workflow
-          <select name="workflow" defaultValue="Code">
+          Area of interest <span className="optional">Optional</span>
+          <select name="workflow" defaultValue="">
+            <option value="">Not sure yet</option>
             <option>Spec</option>
             <option>Code</option>
             <option>Review</option>
@@ -55,22 +54,37 @@ export function DemoBriefForm() {
         </label>
       </div>
       <label>
-        What real work should we evaluate?
+        What would you like to explore?{' '}
+        <span className="optional">Optional</span>
         <textarea
           name="context"
-          rows={5}
-          placeholder="One application, repository, incident pattern, or delivery workflow."
-          required
+          rows={3}
+          maxLength={2500}
+          placeholder="For example, review bottlenecks or investigating production issues."
         />
       </label>
-      <button className="button button-accent" type="submit">
-        Prepare evaluation request <span aria-hidden="true">↗</span>
+      <button
+        className="button button-accent"
+        type="button"
+        onClick={(event) => {
+          if (event.currentTarget.form?.reportValidity())
+            setStatus(
+              'Demo booking is not open yet. Your details have not been sent or saved.',
+            );
+        }}
+      >
+        Request a demo <span aria-hidden="true">↗</span>
       </button>
       <p className="form-note">
-        This site does not store your answers. Submitting opens your email client so you
-        can review and send the brief.
+        Please leave out confidential code, customer information, or
+        credentials.{' '}
+        <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/privacy`}>
+          Privacy information
+        </a>
       </p>
-      <p className="form-status" aria-live="polite">{status}</p>
+      <output className="form-status" aria-live="polite">
+        {status}
+      </output>
     </form>
   );
 }
