@@ -15,6 +15,20 @@ const foundations = [
   ['Evidence', 'Retain sources, decisions, approvals, and artifacts as the work progresses.'],
 ];
 
+const loopTop = [
+  ['01', 'Spec', 'Define the work'],
+  ['02', 'Code', 'Build and debug'],
+  ['03', 'Review', 'Evaluate the change'],
+];
+
+const loopBottom = [
+  ['04', 'Gate', 'Make the decision'],
+  ['05', 'Release', 'Deploy approved work'],
+  ['06', 'On-call', 'Investigate production'],
+];
+
+const innerLoopAgents = ['Claude Code', 'Codex', 'Devin', 'TBSP Harness'];
+
 const adoption = [
   'Choose one application, repository, team, or workflow.',
   'Connect only the context sources it requires.',
@@ -150,30 +164,51 @@ export default function Home() {
         <div className="page-shell">
           <p className="section-index section-index-light">02 / CONNECTED WORK</p>
           <div className="section-heading inverse">
-            <h2>One work item. Context carried forward.</h2>
-            <p>Each step can inspect the sources, artifacts, and decisions produced by the step before it.</p>
+            <h2>Coding agents close the inner loop. TBSP closes the outer one.</h2>
+            <p>Spec through On-call runs as one circuit. Each step inspects the artifacts and decisions produced before it.</p>
           </div>
-          <div className="lifecycle">
-            {[
-              ['01', 'Spec', 'Define the work', 'Request → specification'],
-              ['02', 'Code', 'Build and debug', 'Spec → implementation'],
-              ['03', 'Review', 'Evaluate the change', 'PR → findings'],
-              ['04', 'Gate', 'Make the decision', 'Evidence → approval'],
-              ['05', 'Release', 'Deploy approved work', 'Approval → version'],
-              ['06', 'On-call', 'Investigate production', 'Signal → next action'],
-            ].map(([num, name, title, meta], index) => (
-              <article className={name === 'Gate' ? 'lifecycle-card lifecycle-human' : 'lifecycle-card'} key={name}>
-                <div><span>{num}</span><span>{name === 'Gate' ? 'HUMAN' : 'TBSP'}</span></div>
-                <h3>{name}</h3>
-                <p>{title}</p>
-                <small>{meta}</small>
-                {index < 5 && <b aria-hidden="true">→</b>}
-              </article>
-            ))}
-          </div>
-          <div className="workflow-note">
-            <span>↳</span>
-            <p>When production reveals corrective work, On-call returns the deployed version, evidence, and prior decisions to Code.</p>
+          <div className="circuit-scroll">
+            <figure className="circuit">
+              <div className="circuit-topline">
+                <span>TBSP · The outer loop</span>
+                <span>Spec → On-call · one circuit</span>
+              </div>
+              <div className="circuit-arc">
+                {loopTop.map(([num, name, role], index) => (
+                  <article className="circuit-cell" key={name}>
+                    <b className="circuit-node">{num}</b>
+                    <h3>{name}</h3>
+                    <p>{role}</p>
+                    {index < 2 && <i className="circuit-step" aria-hidden="true">→</i>}
+                  </article>
+                ))}
+              </div>
+              <div className="circuit-core">
+                <i className="circuit-edge circuit-edge-right" aria-hidden="true">
+                  <b>↓</b>
+                </i>
+                <div className="circuit-plate">
+                  <span>Inner loop / where coding agents operate</span>
+                  <strong>Write code, tests, and make them pass</strong>
+                  <ul>
+                    {innerLoopAgents.map((agent) => <li key={agent}>{agent}</li>)}
+                  </ul>
+                </div>
+                <i className="circuit-edge circuit-edge-left" aria-hidden="true">
+                  <b>↑</b>
+                </i>
+              </div>
+              <div className="circuit-arc circuit-arc-return">
+                {loopBottom.map(([num, name, role], index) => (
+                  <article className={name === 'Gate' ? 'circuit-cell circuit-human' : 'circuit-cell'} key={name}>
+                    <b className="circuit-node">{num}</b>
+                    <h3>{name}</h3>
+                    <p>{role}</p>
+                    {index < 2 && <i className="circuit-step" aria-hidden="true">←</i>}
+                  </article>
+                ))}
+              </div>
+            </figure>
           </div>
         </div>
       </section>
