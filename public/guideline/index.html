@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBSP Visual Guideline</title>
+<meta name="description" content="TBSP visual guideline V1: colour, type, construction grammar, and the product UI mapping.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Mono&display=swap">
+<style>
+  :root{--paper:#eceef0;--paper-2:#e1e4e8;--ink:#0f1720;--panel:#141c26;--raised:#1a2431;--sunken:#0c121a;--amber:#f2b23a;--amber-text:#8a5a00;--muted:#5a6472;--line:#c3c9d0;--pale:rgba(255,255,255,.14);
+    --t2:#c4ccd4;--t3:#98a3ae;--t4:#85919c;--t5:#76828e;--l2:#3a4756;--node:#56636f;
+    --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--cond:"IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif;--mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace}
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;margin:0;font-variant-numeric:tabular-nums}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 32px}
+  h1,h2,h3,h4{margin:0;font-weight:500;letter-spacing:-.02em;text-wrap:balance}
+  p{margin:0}
+  .lab{font-family:var(--cond);font-weight:500;font-size:11px;letter-spacing:.09em;text-transform:uppercase}
+  .dark{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+  header{padding:56px 0 36px;border-bottom:1px solid var(--line)}
+  header .lab{color:var(--muted)}
+  header .lab:before{content:"";display:inline-block;width:8px;height:8px;background:var(--amber);margin-right:10px;vertical-align:1px}
+  header h1{font-size:clamp(44px,5.5vw,72px);letter-spacing:-.055em;line-height:.98;margin:22px 0 22px}
+  header h1 em{font-style:normal;background:linear-gradient(var(--amber),var(--amber)) 0 .3em/100% .84em no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .1em 0 .06em;mix-blend-mode:multiply}
+  header .grid{display:grid;grid-template-columns:1.35fr .65fr;gap:60px;align-items:end}
+  header .grid p{color:var(--muted);font-size:16px;line-height:1.7;max-width:46ch}
+
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  section>.wrap>.head{display:grid;grid-template-columns:180px 1fr;gap:28px;margin-bottom:28px}
+  .head .lab{color:var(--muted);padding-top:6px}
+  .head h2{font-size:26px}
+  .head p{color:var(--muted);margin-top:8px;max-width:66ch;font-size:15px}
+
+  /* bands */
+  .band{border:1px solid var(--line);display:grid}
+  .band>div{padding:16px 18px;border-left:1px solid var(--line)}
+  .band>div:first-child,.band.cols4>div:nth-child(4n+1),.band.cols3>div:nth-child(3n+1),.band.cols6>div:nth-child(6n+1),.band.cols2>div:nth-child(2n+1){border-left:0}
+  .band.cols4{grid-template-columns:repeat(4,1fr)} .band.cols3{grid-template-columns:repeat(3,1fr)} .band.cols6{grid-template-columns:repeat(6,1fr)} .band.cols2{grid-template-columns:1fr 1fr}
+  .band.cols4>div:nth-child(n+5),.band.cols3>div:nth-child(n+4),.band.cols6>div:nth-child(n+7),.band.cols2>div:nth-child(n+3){border-top:1px solid var(--line)}
+  .sw{height:72px;border:1px solid rgba(15,23,32,.12);margin-bottom:12px}
+  .band .name{font-size:14px;font-weight:500}
+  .band code{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .band small{display:block;color:var(--muted);font-size:12px;margin-top:6px;line-height:1.5}
+  .cr{font-family:var(--cond);font-weight:600;font-size:10px;letter-spacing:.06em;color:var(--muted);float:right}
+
+  /* dark greys strip */
+  .greys{background:var(--panel);border:1px solid #26313d;display:grid;grid-template-columns:repeat(6,1fr);color:var(--t2)}
+  .greys>div{padding:16px 18px;border-left:1px solid var(--pale)}
+  .greys>div:first-child{border-left:0}
+  .greys b{display:block;font-size:20px;font-weight:600;margin-bottom:6px}
+  .greys code{font-family:var(--mono);font-size:11px;opacity:.8}
+  .greys small{display:block;font-family:var(--cond);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;opacity:.85}
+
+  /* type */
+  .type{border:1px solid var(--line)}
+  .type>div{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:18px 20px;border-top:1px solid var(--line);align-items:baseline}
+  .type>div:first-child{border-top:0}
+  .type .lab{color:var(--muted)}
+  .type .spec{line-height:1.05}
+  .type small{display:block;color:var(--muted);font-size:12px;margin-top:6px}
+
+  /* grammar specimens */
+  .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .spec-grid>div{background:var(--paper);padding:22px 24px}
+  .spec-grid h4{font-size:15px;font-weight:600;margin-bottom:6px}
+  .spec-grid p{color:var(--muted);font-size:13px;line-height:1.55;margin-bottom:16px;max-width:52ch}
+  .panel{background:var(--panel);color:var(--t2);border:1px solid #26313d}
+  .topline{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--pale);font-family:var(--cond);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--t3)}
+  .topline span:first-child{color:var(--t2);font-weight:600}
+  .topline .amb{color:var(--amber);font-weight:600}
+  .row{position:relative;margin:18px 14px 14px;height:22px}
+  .row:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--l2)}
+  .row ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);position:relative;height:100%}
+  .row li{text-align:center;position:relative}
+  .row li b{display:inline-block;width:21px;height:21px;border:1px solid var(--node);border-radius:50%;background:var(--panel);color:var(--t2);font:600 9px var(--cond);line-height:19px;position:relative;top:0}
+  .row li.on b{background:var(--amber);border-color:var(--amber);color:var(--ink)}
+  .row li span{position:absolute;left:0;right:0;top:27px;font:500 9px var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--t4)}
+  .row li.on span{color:#fff}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:1px solid var(--l2);color:var(--t2);font:500 9px var(--cond);letter-spacing:.06em;text-transform:uppercase;padding:6px 8px}
+  .chips.light .chip{border-color:var(--line);color:var(--ink)}
+  .cells{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--pale)}
+  .cells>div{padding:12px 14px;border-left:1px solid var(--pale);font-size:12px;color:var(--t2)}
+  .cells>div:first-child{border-left:0}
+  .cells small{display:block;font:500 9px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+  .cells .gate{border-left:2px solid var(--amber);background:rgba(242,178,58,.07)}
+  .cells .gate small{color:var(--amber)}
+  .cells em{display:block;font-style:normal;color:var(--t4);font-size:11px;margin-top:8px}
+  .gatebadge{display:inline-grid;place-items:center;width:17px;height:17px;border:1px solid var(--amber);border-radius:50%;color:var(--amber);font:600 9px var(--cond);vertical-align:middle;margin-left:8px}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:20px;min-height:46px;padding:0 18px;border:1px solid var(--ink);font-size:14px;font-weight:600;color:var(--ink)}
+  .btn.accent{background:var(--amber);border-color:var(--amber)}
+  .btn.darkb{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--amber)}
+  .shadowdemo{background:var(--panel);height:90px;box-shadow:16px 16px 0 var(--amber);margin:0 20px 20px 0}
+  .plate{background:var(--raised);border:1px solid #2c3946;padding:16px;text-align:center;margin:14px}
+  .plate small{display:block;font:500 9px var(--cond);letter-spacing:.09em;text-transform:uppercase;color:var(--t4)}
+  .plate strong{display:block;color:#fff;font-size:15px;font-weight:600;margin:8px 0 10px;letter-spacing:-.02em}
+
+  /* product mock */
+  .app{background:var(--panel);border:1px solid #26313d;color:var(--t2);display:grid;grid-template-columns:230px 1fr;min-height:420px}
+  .side{border-right:1px solid var(--pale);padding:0}
+  .side .topline{border-bottom:1px solid var(--pale)}
+  .side ul{list-style:none;margin:0;padding:8px 0}
+  .side li{padding:9px 14px;font-size:13px;display:flex;justify-content:space-between;color:var(--t2)}
+  .side li.sel{background:rgba(242,178,58,.16);box-shadow:inset 2px 0 0 var(--amber);color:#fff}
+  .side li i{font-style:normal;font:600 10px var(--cond);color:var(--t3)}
+  .main .title{padding:16px 18px 6px}
+  .main .title small{display:block;color:var(--t3);font-size:12px}
+  .main .title h3{font-size:22px;font-weight:600;color:#fff;letter-spacing:-.025em}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font:500 10px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--t3);text-align:left;padding:10px 18px;border-top:1px solid var(--pale);border-bottom:1px solid var(--pale)}
+  td{padding:9px 18px;border-bottom:1px solid var(--pale);color:var(--t2);vertical-align:middle}
+  td .mono{font-family:var(--mono);font-size:12px;color:var(--t3)}
+  .st{display:inline-flex;align-items:center;gap:7px;font:500 10px var(--cond);letter-spacing:.07em;text-transform:uppercase}
+  .st:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .st.ok{color:#6fb383} .st.risk{color:#e07a66} .st.neutral{color:var(--t3)} .st.human{color:var(--amber)}
+  tr.needs td{background:rgba(242,178,58,.07)} tr.needs td:first-child{box-shadow:inset 2px 0 0 var(--amber)}
+  .mockrow{margin:6px 18px 16px}
+  .lightapp{background:var(--paper);color:var(--ink);border:1px solid var(--line);margin-top:1px}
+  .lightapp th{color:var(--muted);border-color:var(--line)} .lightapp td{color:var(--ink);border-color:var(--line)} .lightapp td .mono{color:var(--muted)}
+  .lightapp .st.ok{color:#3d6b4b} .lightapp .st.risk{color:#9c3a2c} .lightapp .st.neutral{color:var(--muted)} .lightapp .st.human{color:var(--amber-text)}
+  .lightapp .topline{color:var(--muted);border-color:var(--line)} .lightapp .topline span:first-child{color:var(--ink)} .lightapp .topline .amb{color:var(--amber-text)}
+  .lightapp tr.needs td{background:rgba(242,178,58,.12)}
+
+  .tok{border:1px solid var(--line);overflow-x:auto}
+  .tok table{min-width:760px;font-size:13px}
+  .tok th{color:var(--muted);border-color:var(--line);padding:10px 14px}
+  .tok td{border-color:var(--line);color:var(--ink);padding:9px 14px}
+  .tok td i{display:inline-block;width:14px;height:14px;border:1px solid rgba(15,23,32,.15);vertical-align:-2px;margin-right:8px}
+  .tok code{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+  .dont{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .dont>div{background:var(--paper);padding:22px 24px}
+  .dont h4{font-size:14px;font-weight:600;margin-bottom:10px}
+  .dont ul{margin:0;padding:0;list-style:none;font-size:14px;color:var(--muted)}
+  .dont li{padding:7px 0;border-top:1px solid var(--line)}
+  .dont li b{color:var(--ink);font-weight:500}
+  pre{background:var(--panel);color:var(--t2);font-family:var(--mono);font-size:12px;line-height:1.6;padding:18px 20px;margin:0;overflow-x:auto;border:1px solid #26313d}
+  footer{padding:28px 0 60px;color:var(--muted);font-size:13px}
+
+  @media (max-width:900px){
+    header .grid,.spec-grid,.dont,.app{grid-template-columns:1fr}
+    .band.cols4,.band.cols6{grid-template-columns:1fr 1fr} .band.cols3{grid-template-columns:1fr}
+    .band.cols4>div:nth-child(2n+1),.band.cols6>div:nth-child(2n+1){border-left:0} .band.cols4>div:nth-child(n+3),.band.cols6>div:nth-child(n+3){border-top:1px solid var(--line)}
+    .greys{grid-template-columns:1fr 1fr 1fr}
+    section>.wrap>.head,.type>div{grid-template-columns:1fr}
+    .side{border-right:0;border-bottom:1px solid var(--pale)}
+    .wrap{padding:0 18px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="lab">TBSP · Visual guideline · V1 · September 2026</span>
+    <div class="grid">
+      <h1>Drafting paper, drafting ink, <em>one amber marker.</em></h1>
+      <p>How the TBSP website is built, and how the same system carries into the product. Values are taken from the shipped stylesheet. The markdown source of this guideline lives in the site repo at docs/BRAND-VISUAL-GUIDELINE-V1.md.</p>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="lab">01 · Principles</span><div><h2>Five rules cover most decisions.</h2></div></div>
+    <div class="band cols4" style="grid-template-columns:repeat(5,1fr)">
+      <div><span class="name">Two grounds, one marker</span><small>Paper and ink are the only surfaces. Amber is a fill for nodes, shadows, button grounds and highlighted phrases. It is not a text colour on paper.</small></div>
+      <div><span class="name">Construction over decoration</span><small>Structure comes from hairlines and bands. Cells share borders edge to edge. No gaps, no radius, no blur.</small></div>
+      <div><span class="name">One decorative gesture</span><small>A hard, zero-blur offset shadow in amber. On dark panels and the primary dark button, nowhere else.</small></div>
+      <div><span class="name">Labels are condensed</span><small>Metadata is IBM Plex Sans Condensed, uppercase, tracked. Monospace is for code and glyph icons only.</small></div>
+      <div><span class="name">Derive, do not invent</span><small>New figures reuse the grammar in section 04. A new vocabulary reads as off-brand immediately.</small></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="lab">02 · Colour</span><div><h2>Tokens on paper</h2><p>Contrast ratios are measured against the surface named in each cell. Amber fails as text on paper at 1.6 : 1, which is the whole reason it is a fill.</p></div></div>
+    <div class="band cols4">
+      <div><i class="sw" style="background:#eceef0"></i><span class="cr">ground</span><span class="name">--paper</span><br><code>#eceef0</code><small>Page ground. Cool blue-grey, chosen not neutral.</small></div>
+      <div><i class="sw" style="background:#e1e4e8"></i><span class="cr">band</span><span class="name">--paper-2</span><br><code>#e1e4e8</code><small>Bands, form panels, token rails.</small></div>
+      <div><i class="sw" style="background:#0f1720"></i><span class="cr">15.5 : 1 on paper</span><span class="name">--ink</span><br><code>#0f1720</code><small>Text on paper. Primary dark button ground.</small></div>
+      <div><i class="sw" style="background:#141c26"></i><span class="cr">panel</span><span class="name">--forest</span><br><code>#141c26</code><small>Dark panel ground. Name kept for stylesheet continuity; the colour is ink, not green.</small></div>
+      <div><i class="sw" style="background:#f2b23a"></i><span class="cr">ink on it 9.6 : 1</span><span class="name">--oxide</span><br><code>#f2b23a</code><small>Amber. Fill only. Carries ink text, never white.</small></div>
+      <div><i class="sw" style="background:#8a5a00"></i><span class="cr">5.1 : 1 on paper</span><span class="name">--oxide-text</span><br><code>#8a5a00</code><small>The rare accent-as-text on paper.</small></div>
+      <div><i class="sw" style="background:#5a6472"></i><span class="cr">5.2 : 1 on paper</span><span class="name">--muted</span><br><code>#5a6472</code><small>Secondary text on paper.</small></div>
+      <div><i class="sw" style="background:#c3c9d0"></i><span class="cr">hairline</span><span class="name">--line</span><br><code>#c3c9d0</code><small>Rules on paper. On panels, rgba(255,255,255,.14).</small></div>
+    </div>
+    <div style="height:18px"></div>
+    <div class="greys dark">
+      <div><b>Aa</b><code>#ffffff</code><small>Panel headings</small></div>
+      <div style="color:#c4ccd4"><b>Aa</b><code>#c4ccd4 · 10.6</code><small>Primary small text, digits</small></div>
+      <div style="color:#aeb7c0"><b>Aa</b><code>#aeb7c0 · 8.4</code><small>Panel body</small></div>
+      <div style="color:#98a3ae"><b>Aa</b><code>#98a3ae · 6.7</code><small>Toplines, labels</small></div>
+      <div style="color:#85919c"><b>Aa</b><code>#85919c · 5.3</code><small>Tertiary, inactive</small></div>
+      <div style="color:#76828e"><b>Aa</b><code>#76828e · 4.4</code><small>Footnotes only, 12px+</small></div>
+    </div>
+    <div style="height:18px"></div>
+    <div class="band cols3">
+      <div><i class="sw" style="background:#3d6b4b"></i><span class="cr">5.3 : 1</span><span class="name">--ok</span><br><code>#3d6b4b</code><small>Available, demonstrated. Semantic, not an accent.</small></div>
+      <div><i class="sw" style="background:#8a6612"></i><span class="cr">site only</span><span class="name">--pending</span><br><code>#8a6612</code><small>Preview, confirm. In the product, pending is neutral grey; amber means a human.</small></div>
+      <div><i class="sw" style="background:#9c3a2c"></i><span class="cr">5.9 : 1</span><span class="name">--risk</span><br><code>#9c3a2c</code><small>Risk, failure.</small></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="lab">03 · Typography</span><div><h2>IBM Plex, three cuts, no serif, no italic.</h2><p>Plex Sans for display and body, Plex Sans Condensed for every label, Plex Mono only inside code samples and glyph icons. Nothing bolder than 600 in running content.</p></div></div>
+    <div class="type">
+      <div><span class="lab">Hero · Sans 500 · -.065em · .93</span><div><div class="spec" style="font-size:64px;letter-spacing:-.065em;font-weight:500">Ship with the <span style="background:linear-gradient(var(--amber),var(--amber)) 0 .3em/100% .84em no-repeat;padding:0 .1em 0 .06em;mix-blend-mode:multiply">whole picture.</span></div><small>The emphasised phrase is an upright amber highlight sized to the letters, cloned per line, multiply-blended so descenders from the line above show through.</small></div></div>
+      <div><span class="lab">Section h2 · Sans 500 · -.055em</span><div><div class="spec" style="font-size:42px;letter-spacing:-.055em">Coding agents close the inner loop.</div></div></div>
+      <div><span class="lab">Panel heading · Sans 600 · -.03em</span><div><div class="spec" style="font-size:22px;font-weight:600;letter-spacing:-.03em">Add regional failover</div></div></div>
+      <div><span class="lab">Body · Sans 400 · 16 / 1.55</span><div><div style="font-size:16px;max-width:60ch">TBSP is one platform with four modules. They share system context, executable playbooks, and governed human decisions from the first request through production.</div></div></div>
+      <div><span class="lab">Label · Condensed 500 · .09em</span><div><div class="lab" style="font-size:11px;color:var(--muted)">Agentic software development for enterprise engineering</div><div class="lab" style="font-size:10px;color:var(--muted);margin-top:8px">Illustrative workflow / ENG-2841</div><small>9 to 12px. 600 for node digits and chips inside the circuit.</small></div></div>
+      <div><span class="lab">Code · Mono 400 · 12 to 13</span><div><div style="font-family:var(--mono);font-size:13px;color:var(--muted)">auth/health.ts · deployment configuration · SLO 99.95</div><small>The only place monospace appears. Never for labels.</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="lab">04 · Construction grammar</span><div><h2>The shapes that make something look like TBSP.</h2><p>Everything on the site, including every illustration, is built from these. The test for a new figure: could the site's own CSS classes produce it?</p></div></div>
+    <div class="spec-grid">
+      <div><h4>Rule with punched nodes</h4><p>A continuous 1px rule with 21px circular nodes sitting on it. Each node carries the ground colour to mask the line. The active node is amber with an ink digit. This is the signature.</p>
+        <div class="panel dark"><div class="topline"><span>Illustrative workflow / ENG-2841</span><span class="amb">Human review</span></div>
+          <div class="row"><ol><li><b>01</b><span>Spec</span></li><li><b>02</b><span>Code</span></li><li><b>03</b><span>Review</span></li><li class="on"><b>04</b><span>Gate</span></li><li><b>05</b><span>Release</span></li><li><b>06</b><span>On-call</span></li></ol></div>
+          <div style="height:22px"></div></div></div>
+      <div><h4>Panel topline</h4><p>Every dark panel opens with a condensed uppercase row: the panel's name on the left at 600, its state on the right at 500. Amber on the right means a human is needed.</p>
+        <div class="panel dark"><div class="topline"><span>TBSP · The outer loop</span><span>Spec → On-call · one circuit</span></div><div style="padding:14px"><div class="chips"><span class="chip">Jira request</span><span class="chip">Service code</span><span class="chip">Architecture decision</span><span class="chip">Deploy history</span><span class="chip">Runtime signals</span></div></div></div>
+        <p style="margin:14px 0 0">Chips: 1px outline, condensed 9px, 6 by 8 padding, no fill, no radius. Never large or bright.</p></div>
+      <div><h4>Evidence cells and the active state</h4><p>Cells share borders edge to edge. An active or human-gated cell takes a wash, a 2px inner-edge rule and an amber label. Never a flat flood.</p>
+        <div class="panel dark"><div class="cells" style="border-top:0"><div><small>Requirement</small>Regional failure must preserve active customer sessions.<em>Source: ENG-2841 · one clarification resolved</em></div><div><small>Review finding</small>Health-check state remains tied to the primary region.<em>Evidence: auth/health.ts</em></div><div class="gate"><small>Human gate</small>Platform lead reviews the finding before release.<em>Decision and evidence retained</em></div></div></div></div>
+      <div><h4>Offset shadow, raised plate, gate badge</h4><p>The one decorative gesture: zero blur, always amber, 22px on panels, 4px on the dark button. The raised plate marks the thing inside the machine. The badge marks a human decision.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start"><div class="shadowdemo"></div><div class="panel dark" style="padding:0"><div class="plate"><small>Inner loop / where coding agents operate</small><strong>Write code, tests, and make them pass</strong><div class="chips" style="justify-content:center"><span class="chip">Claude Code</span><span class="chip">Codex</span></div></div></div></div>
+        <div class="btns" style="margin-top:8px"><span class="btn accent">Inspect the workflow <span aria-hidden="true">↗</span></span><span class="btn darkb">Book a demo</span><span class="btn">Plan an evaluation</span><span style="font-size:15px;font-weight:600">Gate<span class="gatebadge">H</span></span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="lab">05 · Product UI</span><div><h2>The product is the dark panel, full screen.</h2><p>The site already depicts the product as ink panels on paper. In the product those panels are the surface. Same tokens, tighter density, and one semantic change: amber means exactly one thing, a person must look at or decide this. Nothing automated is amber. Pending is neutral grey.</p></div></div>
+    <div class="app dark">
+      <div class="side"><div class="topline"><span>Work items</span><span>12</span></div>
+        <ul><li>ENG-2839 · Retry policy <i>Review</i></li><li class="sel">ENG-2841 · Regional failover <i style="color:var(--amber)">Gate</i></li><li>ENG-2844 · Rate limits <i>Code</i></li><li>ENG-2846 · Audit export <i>Spec</i></li><li>INC-118 · Login latency <i>On-call</i></li></ul></div>
+      <div class="main"><div class="topline"><span>ENG-2841 · Customer identity service</span><span class="amb">Human review · Gate 2 of 3</span></div>
+        <div class="title"><small>Customer request</small><h3>Add regional failover</h3></div>
+        <div class="row mockrow"><ol><li><b>01</b><span>Spec</span></li><li><b>02</b><span>Code</span></li><li><b>03</b><span>Review</span></li><li class="on"><b>04</b><span>Gate</span></li><li><b>05</b><span>Release</span></li><li><b>06</b><span>On-call</span></li></ol></div>
+        <div style="height:18px"></div>
+        <table><thead><tr><th>Check</th><th>Evidence</th><th>Owner</th><th>Status</th></tr></thead><tbody>
+          <tr><td>Requirement traced</td><td><span class="mono">ENG-2841 · 1 clarification</span></td><td>Spec</td><td><span class="st ok">Passed</span></td></tr>
+          <tr><td>Tests</td><td><span class="mono">142 passed · 0 failed</span></td><td>Code</td><td><span class="st ok">Passed</span></td></tr>
+          <tr class="needs"><td>Health-check region pin</td><td><span class="mono">auth/health.ts · finding #3</span></td><td>Platform lead</td><td><span class="st human">Needs a human</span></td></tr>
+          <tr><td>Deploy window</td><td><span class="mono">2026-09-10 02:00 IST</span></td><td>Release</td><td><span class="st neutral">Pending</span></td></tr>
+          <tr><td>Rollback rehearsal</td><td><span class="mono">eu-west-2 · not run</span></td><td>On-call</td><td><span class="st risk">Blocked</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="lightapp">
+      <div class="topline"><span>Light theme · Slack and Teams embeds, light editors</span><span class="amb">Same tokens, paper surfaces</span></div>
+      <table><thead><tr><th>Check</th><th>Evidence</th><th>Owner</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Tests</td><td><span class="mono">142 passed · 0 failed</span></td><td>Code</td><td><span class="st ok">Passed</span></td></tr>
+        <tr class="needs"><td>Health-check region pin</td><td><span class="mono">auth/health.ts · finding #3</span></td><td>Platform lead</td><td><span class="st human">Needs a human</span></td></tr>
+        <tr><td>Rollback rehearsal</td><td><span class="mono">eu-west-2 · not run</span></td><td>On-call</td><td><span class="st risk">Blocked</span></td></tr>
+      </tbody></table>
+    </div>
+    <div style="height:28px"></div>
+    <div class="tok"><table>
+      <thead><tr><th>Token</th><th>Dark (default)</th><th>Light</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><code>--surface-0</code></td><td><i style="background:#141c26"></i><code>#141c26</code></td><td><i style="background:#eceef0"></i><code>#eceef0</code></td><td>App ground</td></tr>
+        <tr><td><code>--surface-1</code></td><td><i style="background:#1a2431"></i><code>#1a2431</code></td><td><i style="background:#e1e4e8"></i><code>#e1e4e8</code></td><td>Raised: side panels, cards, table headers</td></tr>
+        <tr><td><code>--surface-2</code></td><td><i style="background:#0c121a"></i><code>#0c121a</code></td><td><i style="background:#ffffff"></i><code>#ffffff</code></td><td>Sunken: code, logs, input wells</td></tr>
+        <tr><td><code>--text-1 / -2 / -3 / -4</code></td><td><code>#ffffff · #c4ccd4 · #98a3ae · #85919c</code></td><td><code>#0f1720 · #0f1720 · #5a6472 · #5a6472</code></td><td>Headings · body · labels · tertiary. All pass AA on their ground.</td></tr>
+        <tr><td><code>--line-1 / -2</code></td><td><code>rgba(255,255,255,.14) · #3a4756</code></td><td><code>#c3c9d0 · #c3c9d0</code></td><td>Hairlines · outlines</td></tr>
+        <tr><td><code>--accent / -ink / -text / -wash</code></td><td><i style="background:#f2b23a"></i><code>#f2b23a · #0f1720 · #f2b23a · rgba(242,178,58,.16)</code></td><td><i style="background:#f2b23a"></i><code>#f2b23a · #0f1720 · #8a5a00 · rgba(242,178,58,.12)</code></td><td>Human attention, active step, primary action</td></tr>
+        <tr><td><code>--ok / --risk / --neutral</code></td><td><i style="background:#6fb383"></i><i style="background:#e07a66"></i><i style="background:#98a3ae"></i><code>#6fb383 · #e07a66 · #98a3ae</code></td><td><i style="background:#3d6b4b"></i><i style="background:#9c3a2c"></i><i style="background:#5a6472"></i><code>#3d6b4b · #9c3a2c · #5a6472</code></td><td>Passed · failed or blocked · pending. Dark values measure 6.9, 5.8, 6.7.</td></tr>
+      </tbody></table></div>
+    <div style="height:28px"></div>
+    <div class="dont">
+      <div><h4>Carries over</h4><ul>
+        <li><b>Stage row</b> as the pipeline header of every work item, same 21px nodes and condensed labels.</li>
+        <li><b>Topline</b> on every panel, drawer and modal: what it is on the left, its state on the right.</li>
+        <li><b>Evidence cells</b> for findings, requirements and decisions; the gate variant for anything awaiting a person.</li>
+        <li><b>Chips</b> for sources and agents. <b>Status marks</b> with product semantics. <b>One raised plate</b> per view.</li>
+        <li><b>Density</b>: 4px base, 36px dense rows, 44px two-line rows, 16 to 20px panel padding. Largest text 24px. Tabular numerals everywhere.</li>
+        <li><b>States</b>: hover is a 4% wash; selected is the accent wash plus a 2px leading edge; focus is a 2px amber outline, always visible; live activity reuses the circuit pulse.</li>
+      </ul></div>
+      <div><h4>Does not carry over</h4><ul>
+        <li><b>Display type</b> above 24px.</li>
+        <li><b>The offset shadow.</b> No shadows in the product at all.</li>
+        <li><b>Amber fills</b> larger than a button or a node, and any amber that means "pending" or "in progress".</li>
+        <li><b>The 112px rhythm</b> and section numbering as decoration. Product numbers are counts, steps or IDs.</li>
+        <li><b>Radius</b> anywhere except node and badge circles. <b>Zebra striping</b>; rows are divided by hairlines.</li>
+        <li><b>Icons with fills or emoji.</b> Line icons at 16px, 1.5px stroke, square caps, colour following adjacent text.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="lab">06 · Do not</span><div><h2>The short list.</h2></div></div>
+    <div class="dont">
+      <div><ul>
+        <li><b>No blue, purple, green or teal accent.</b> Under Plex, blue reads as IBM Carbon and then as the Cognition and Warp cluster.</li>
+        <li><b>No warm cream, terracotta, rust or forest green.</b> That is the previous system and the Anthropic and Cursor cluster.</li>
+        <li><b>No monospace labels.</b> The sans plus designer-mono pairing is the dev-tool uniform.</li>
+        <li><b>No italic or serif for emphasis.</b> Highlight instead.</li>
+        <li><b>No amber text on paper. No white text on amber.</b></li>
+      </ul></div>
+      <div><ul>
+        <li><b>No rounded corners, blurred shadows, gradients or glows.</b></li>
+        <li><b>No two dark bands touching,</b> including the footer.</li>
+        <li><b>No diagrams with gaps between boxes or arrows drawn as artwork.</b> Build from the grammar.</li>
+        <li><b>No device mockups, browser chrome, stock photography, people or robots.</b></li>
+        <li><b>No numbering of a grid of equals.</b> Numbers mark real sequences.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="lab">07 · Token export</span><div><h2>Drop-in variables for product teams.</h2></div></div>
+<pre class="dark">:root[data-theme="dark"], :root {
+  --surface-0:#141c26; --surface-1:#1a2431; --surface-2:#0c121a;
+  --text-1:#ffffff; --text-2:#c4ccd4; --text-3:#98a3ae; --text-4:#85919c;
+  --line-1:rgba(255,255,255,.14); --line-2:#3a4756;
+  --accent:#f2b23a; --accent-ink:#0f1720; --accent-text:#f2b23a; --accent-wash:rgba(242,178,58,.16);
+  --ok:#6fb383; --risk:#e07a66; --neutral:#98a3ae;
+  --font-sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --font-label:"IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif;
+  --font-mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+}
+:root[data-theme="light"] {
+  --surface-0:#eceef0; --surface-1:#e1e4e8; --surface-2:#ffffff;
+  --text-1:#0f1720; --text-2:#0f1720; --text-3:#5a6472; --text-4:#5a6472;
+  --line-1:#c3c9d0; --line-2:#c3c9d0;
+  --accent:#f2b23a; --accent-ink:#0f1720; --accent-text:#8a5a00; --accent-wash:rgba(242,178,58,.12);
+  --ok:#3d6b4b; --risk:#9c3a2c; --neutral:#5a6472;
+}</pre>
+  </div>
+</section>
+
+<footer><div class="wrap">V1, 2026-09-08. Written against the homepage as merged to main in PR #2. Source of truth for site values is the :root block in app/globals.css; if this page and the stylesheet disagree, the stylesheet wins and this page is corrected. Words and claims are governed by the brand language document, not this one.</div></footer>
+</body>
+</html>
