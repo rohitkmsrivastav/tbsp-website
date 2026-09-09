@@ -1,20 +1,9 @@
 import { HeroMorph } from './hero-morph';
+import { HowTimeline } from './how-timeline';
 import { InterfacesSwitcher } from './interfaces-switcher';
 import { Arrow, modules, PageFrame, siteHref, PageCta } from './site';
 
 export const dynamic = 'force-static';
-
-const loopTop = [
-  { num: '01', name: 'Spec', line: 'Completes the requirement.', human: true },
-  { num: '02', name: 'Code', line: 'Gives agents the context.', human: false },
-  { num: '03', name: 'Review', line: 'Checks change against intent.', human: true },
-];
-
-const loopReturn = [
-  { num: '04', name: 'Release', line: 'Ships with approvals attached.', human: true },
-  { num: '05', name: 'On-call', line: 'Links incident to history.', human: true },
-  { num: '↺', name: 'Back to Spec', line: 'Feeds the next requirement.', human: false, close: true },
-];
 
 const innerLoopAgents = ['Claude Code', 'Codex', 'Devin', 'TBSP Code'];
 
@@ -68,26 +57,6 @@ const faqs = [
   ],
 ];
 
-type LoopStep = (typeof loopTop)[number] & { close?: boolean };
-
-function LoopCell({ step, index }: { step: LoopStep; index: number }) {
-  const classes = ['circuit-cell'];
-  if (step.human) classes.push('circuit-human');
-  if (step.close) classes.push('circuit-close');
-  return (
-    <article className={classes.join(' ')}>
-      <b className="circuit-node">{step.num}</b>
-      <h3>{step.name}</h3>
-      <p>{step.line}</p>
-      {index < 2 && (
-        <i className="circuit-step" aria-hidden="true">
-          {step.close || step.name === 'Release' || step.name === 'On-call' ? '←' : '→'}
-        </i>
-      )}
-    </article>
-  );
-}
-
 export default function Home() {
   return (
     <PageFrame>
@@ -97,7 +66,7 @@ export default function Home() {
             AI-assisted software delivery for enterprise teams
           </p>
           <h1>
-            <HeroMorph from="Code" to="Ship" /> the way
+            <HeroMorph /> the way
             <br className="desktop-break" /> your best engineers do.
           </h1>
           <p className="hero-lede">
@@ -194,58 +163,18 @@ export default function Home() {
           <p className="section-index section-index-light">How TBSP works</p>
           <div className="section-heading inverse">
             <h2>
-              The work moves on.
+              From ticket to deploy,
               <br />
-              The context comes with it.
+              here is what TBSP does.
             </h2>
             <p>
-              Coding agents own the inner loop. TBSP runs the outer loop around
-              it, on one work record, and the loop closes at Spec.
+              Spec writes the acceptance criteria. Code opens the PR and runs the
+              tests. Review checks the PR against the spec. On-call ties the alert
+              back to the deploy. Release is your pipeline. Humans approve at
+              review and release.
             </p>
           </div>
-          <div className="circuit-scroll">
-            <figure className="circuit" aria-label="How TBSP works: the outer delivery loop around the coding-agent inner loop">
-              <div className="circuit-topline">
-                <span>TBSP · The outer loop</span>
-                <span><i className="circuit-legend" aria-hidden="true">H</i> a person decides here</span>
-              </div>
-              <div className="circuit-arc">
-                {loopTop.map((step, index) => (
-                  <LoopCell key={step.name} step={step} index={index} />
-                ))}
-              </div>
-              <div className="circuit-core">
-                <i className="circuit-edge circuit-edge-right" aria-hidden="true">
-                  <b>↓</b>
-                </i>
-                <div className="circuit-plate">
-                  <span>Inside 02 Code · the coding-agent loop</span>
-                  <strong>Implement → Test → Debug</strong>
-                  <ul>
-                    {innerLoopAgents.map((agent) => (
-                      <li key={agent}>{agent}</li>
-                    ))}
-                  </ul>
-                </div>
-                <i className="circuit-edge circuit-edge-left" aria-hidden="true">
-                  <b>↑</b>
-                </i>
-              </div>
-              <div className="circuit-arc circuit-arc-return">
-                {loopReturn.map((step, index) => (
-                  <LoopCell key={step.name} step={step} index={index} />
-                ))}
-              </div>
-            </figure>
-          </div>
-          <div className="circuit-foot">
-            <p>
-              Illustrative. Release runs through your own delivery pipeline.
-            </p>
-            <a href={siteHref('/platform')}>
-              See the platform <Arrow />
-            </a>
-          </div>
+          <HowTimeline />
         </div>
       </section>
 

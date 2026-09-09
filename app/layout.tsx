@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <noscript>
-          <style>{`.morph::before{display:none}.morph-final{opacity:1}`}</style>
+          <style>{`.morph .morph-code{display:none}.morph .morph-ship{display:inline-block}`}</style>
         </noscript>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

@@ -275,15 +275,17 @@ main {
   text-decoration-thickness: 4px;
   text-underline-offset: 9px;
 }
-/* The hero morph. "Code" pixelates and its squares fly into place as "Ship"
-   on a canvas overlay; the DOM always holds the final word. */
-.morph { cursor: default; display: inline-block; position: relative; }
-.morph-final { opacity: 0; }
-.morph::before { content: attr(data-from); line-height: inherit; opacity: var(--start-op, 1); position: absolute; right: 0; top: 0; white-space: nowrap; }
-.morph-canvas { left: 0; opacity: 0; pointer-events: none; position: absolute; top: 0; }
+/* The hero's first word is a bitmap: square cells from the headline face as
+   inline SVG, present from first paint. On load the cells of Code fly into
+   Ship and stay. Width in flow is the final word; the wider original spills
+   into the left margin. */
+.morph { cursor: default; display: inline-block; line-height: 0; margin-left: calc(-5em / 15); position: relative; vertical-align: baseline; }
+.morph svg { display: inline-block; overflow: visible; }
+.morph .morph-ship { display: none; }
+.morph-sr { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
 @media (prefers-reduced-motion: reduce) {
-  .morph-final { opacity: 1; }
-  .morph::before { display: none; }
+  .morph .morph-code { display: none; }
+  .morph .morph-ship { display: inline-block; }
 }
 .hero-lede {
   max-width: 730px;
@@ -463,77 +465,50 @@ main {
 .inverse > p {
   color: #aeb7c0;
 }
-/* How TBSP works: the outer loop. Built on the hero grammar: hairline-divided
-   bands, small circular nodes punched out of the rule they sit on, condensed
-   labels. No boxes with gaps, no floating labels. Loop closes On-call -> Spec. */
-.circuit-scroll { overflow-x:auto; }
-.circuit { border:1px solid var(--pale-line); margin:0; position:relative; }
-.circuit-topline { border-bottom:1px solid var(--pale-line); color:#98a3ae; display:flex; font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; justify-content:space-between; letter-spacing:.07em; padding:15px 22px; text-transform:uppercase; }
-.circuit-topline span:first-child { color:#c4ccd4; font-weight:600; }
-.circuit-arc { display:grid; grid-template-columns:repeat(3,1fr); position:relative; }
-.circuit-arc:before { background:#3a4756; content:""; height:1px; left:36px; position:absolute; right:calc(100% / 3 - 36px); top:40px; }
-.circuit-arc-return { direction:rtl; }
-.circuit-arc-return .circuit-cell { animation-name:circuit-flow-return; }
-.circuit-cell { animation:circuit-flow 16s linear infinite; color:#8e99a3; direction:ltr; padding:30px 26px 30px; position:relative; will-change:background-color,box-shadow; }
-.circuit-cell+.circuit-cell { border-left:1px solid var(--pale-line); }
-.circuit-arc .circuit-cell:nth-child(1) { animation-delay:0s; }
-.circuit-arc .circuit-cell:nth-child(2) { animation-delay:2s; }
-.circuit-arc .circuit-cell:nth-child(3) { animation-delay:4s; }
-.circuit-arc-return .circuit-cell:nth-child(1) { animation-delay:8s; }
-.circuit-arc-return .circuit-cell:nth-child(2) { animation-delay:10s; }
-.circuit-arc-return .circuit-cell:nth-child(3) { animation-delay:12s; }
-.circuit-cell h3 { color:white; font-size:22px; font-weight:600; letter-spacing:-.03em; margin:19px 0 4px; }
-.circuit-cell p { color:#aeb7c0; font-size:13px; font-weight:400; margin:0; }
-.circuit-human h3:after { border:1px solid var(--oxide); border-radius:50%; color:var(--oxide); content:"H"; display:inline-grid; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; height:17px; margin-left:9px; place-items:center; vertical-align:middle; width:17px; }
-.circuit-legend { border:1px solid var(--oxide); border-radius:50%; color:var(--oxide); display:inline-grid; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; font-style:normal; height:15px; margin-right:6px; place-items:center; vertical-align:-3px; width:15px; }
-.circuit-close h3 { color:#c4ccd4; }
-.circuit-close .circuit-node { border-style:dashed; }
-.circuit-node,.circuit-step,.circuit-edge b { align-items:center; background:var(--forest); border:1px solid #56636f; border-radius:50%; color:#c4ccd4; display:flex; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; height:21px; justify-content:center; width:21px; }
-.circuit-node { animation:circuit-node-flow 16s linear infinite; animation-delay:inherit; }
-.circuit-step { font-size:11px; position:absolute; right:-11px; top:30px; z-index:2; }
-.circuit-arc-return .circuit-step { left:-11px; right:auto; }
-.circuit-core { border-bottom:1px solid var(--pale-line); border-top:1px solid var(--pale-line); padding:46px 0; position:relative; }
-.circuit-edge { animation:circuit-edge-flow 16s linear infinite; bottom:0; position:absolute; top:0; width:1px; }
-.circuit-edge b { animation:circuit-node-flow 16s linear infinite; animation-delay:inherit; font-size:10px; position:absolute; top:50%; transform:translateY(-50%); }
-.circuit-edge-right b { right:4px; }
-.circuit-edge-left b { left:4px; }
-.circuit-edge-right { animation-delay:6s; right:-1px; }
-.circuit-edge-left { animation-delay:14s; left:-1px; }
-.circuit-plate { animation:circuit-plate-flow 16s linear infinite; animation-delay:2s; background:#1a2431; border:1px solid #2c3946; margin:0 auto; max-width:560px; padding:26px 30px 24px; text-align:center; }
-.circuit-plate>span { color:#85919c; display:block; font:500 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.09em; text-transform:uppercase; }
-.circuit-plate strong { color:white; display:block; font-size:19px; font-weight:600; letter-spacing:-.025em; margin:12px 0 18px; }
-.circuit-plate ul { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; list-style:none; margin:0; padding:0; }
-.circuit-plate li { border:1px solid #3a4756; color:#c4ccd4; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; padding:6px 8px; text-transform:uppercase; }
-.circuit-foot { align-items:baseline; color:#85919c; display:flex; font-size:12px; gap:32px; justify-content:space-between; line-height:1.6; margin-top:18px; }
-.circuit-foot p { margin:0; max-width:70ch; }
-.circuit-foot a { border-bottom:1px solid #56636f; color:white; font-size:13px; font-weight:600; padding-bottom:4px; white-space:nowrap; }
-@keyframes circuit-flow {
-  0%,12.5% { background-color:rgba(242,178,58,.16); box-shadow:inset 0 -2px 0 var(--oxide); }
-  12.51%,100% { background-color:transparent; box-shadow:inset 0 -2px 0 transparent; }
-}
-@keyframes circuit-flow-return {
-  0%,12.5% { background-color:rgba(242,178,58,.16); box-shadow:inset 0 2px 0 var(--oxide); }
-  12.51%,100% { background-color:transparent; box-shadow:inset 0 2px 0 transparent; }
-}
-@keyframes circuit-node-flow {
-  0%,12.5% { background-color:var(--oxide); border-color:var(--oxide); color:var(--ink); }
-  12.51%,100% { background-color:var(--forest); border-color:#56636f; color:#c4ccd4; }
-}
-@keyframes circuit-edge-flow {
-  0%,12.5% { background-color:var(--oxide); }
-  12.51%,100% { background-color:var(--pale-line); }
-}
-@keyframes circuit-plate-flow {
-  0%,12.5% { border-color:var(--oxide); }
-  12.51%,100% { border-color:#2c3946; }
-}
-@media (max-width:980px) {
-  .circuit { min-width:900px; }
-  .circuit-foot { flex-direction:column; gap:14px; }
-}
-@media (prefers-reduced-motion:reduce) {
-  .circuit-cell,.circuit-node,.circuit-step,.circuit-edge,.circuit-edge b,.circuit-plate { animation:none; }
-  .circuit-human { background-color:rgba(242,178,58,.16); box-shadow:inset 0 2px 0 var(--oxide); }
+/* How TBSP works: a 24-column timeline. Cards above and below sit on the same
+   grid as the bar, and each drops a dashed stem onto the segment it explains.
+   Light segments: TBSP acts. Amber: a person decides. Rows: cards, stems, bar,
+   stage words, stems, cards. Below 900px the cards stack under the bar. */
+.tl { background:#0c121a; border:1px solid #26313d; display:grid; grid-template-columns:repeat(24,1fr); grid-template-rows:auto 34px 60px auto 34px auto; margin:0; padding:40px 40px 36px; row-gap:0; }
+.tl-card { background:var(--forest); border:1px solid #26313d; padding:22px 24px 24px; }
+.tl-card-top { grid-row:1; }
+.tl-card-bottom { grid-row:6; }
+.tl-tag { color:#98a3ae; display:block; font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.14em; text-transform:uppercase; }
+.tl-tag:before { background:#e6e9ec; content:""; display:inline-block; height:7px; margin-right:9px; vertical-align:1px; width:7px; }
+.tl-tag-human:before { background:var(--oxide); }
+.tl-card h3 { color:white; font-size:19px; font-weight:600; letter-spacing:-.02em; margin:14px 0 8px; }
+.tl-card p { color:#98a3ae; font-size:14px; line-height:1.55; margin:0; }
+.tl-agents { display:flex; flex-wrap:wrap; gap:6px; list-style:none; margin:12px 0 0; padding:0; }
+.tl-agents li { border:1px solid #3a4756; color:#c4ccd4; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.06em; padding:4px 7px; text-transform:uppercase; }
+.tl-card a { border-bottom:1px solid #56636f; color:white; display:inline-block; font-size:12px; font-weight:600; margin-top:14px; padding-bottom:3px; }
+.tl-stem { border-left:1px dashed #56636f; justify-self:center; width:0; }
+.tl-stem-top { grid-row:2; }
+.tl-stem-bottom { grid-row:5; }
+.tl-bar { display:grid; gap:7px; grid-column:1 / -1; grid-row:3; grid-template-columns:repeat(24,1fr); }
+.tl-seg { background:#1a2431; border:1px solid #26313d; }
+.tl-seg-on { background:#e6e9ec; border-color:#e6e9ec; }
+.tl-seg-gate { align-items:center; background:var(--oxide); border-color:var(--oxide); color:var(--ink); display:grid; font:600 12px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; justify-items:center; }
+.tl-seg-done { align-items:center; background:#e6e9ec; border-color:#e6e9ec; color:var(--ink); display:grid; font-size:16px; justify-items:center; }
+.tl-stages { display:grid; grid-column:1 / -1; grid-row:4; grid-template-columns:repeat(24,1fr); padding:12px 0 0; }
+/* hover mapping: point at a stage, a segment or a card and that stage lights up */
+.tl-seg,.tl-card,.tl-stem,.tl-stage { transition:opacity .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease; }
+.tl-stage { appearance:none; background:transparent; border:0; color:#85919c; cursor:default; font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.14em; padding:0; position:relative; text-align:left; text-transform:uppercase; }
+.tl-stage:focus-visible { outline:2px solid var(--oxide); outline-offset:3px; }
+.tl-stages { align-items:start; }
+.tl.has-active .is-dim { opacity:.32; }
+.tl-seg.is-active.tl-seg-off { background:#26313d; border-color:#3a4756; }
+.tl-card.is-active { border-color:#e6e9ec; }
+.tl-card.is-active h3 { color:white; }
+.tl-stem.is-active { border-left-style:solid; border-left-color:#e6e9ec; }
+.tl-stage.is-active { color:white; }
+.tl-release-note { color:#c4ccd4; display:block; font:400 12px "IBM Plex Sans","Helvetica Neue",Arial,sans-serif; letter-spacing:0; margin-top:8px; max-width:26ch; text-transform:none; }
+@media (max-width:900px) {
+  .tl { display:block; padding:20px; }
+  .tl-bar { gap:3px; }
+  .tl-stem { display:none; }
+  .tl-stages { margin-bottom:20px; }
+  .tl-stage { font-size:9px; letter-spacing:.08em; }
+  .tl-card { margin-top:10px; }
 }
 /* Module quadrants. Four flat tones of paper, one step apart, so each quadrant
    reads as its own surface without a gradient. Each card carries a small loop
