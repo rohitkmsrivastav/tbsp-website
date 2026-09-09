@@ -4,17 +4,41 @@ import { Arrow, modules, PageFrame, siteHref, PageCta } from './site';
 
 export const dynamic = 'force-static';
 
+// The outer loop as the sales deck draws it: eight steps, closing at Prioritize.
 const loopTop = [
-  { num: '01', name: 'Spec', line: 'Completes the requirement.', human: true },
-  { num: '02', name: 'Code', line: 'Gives agents the context.', human: false },
-  { num: '03', name: 'Review', line: 'Checks change against intent.', human: true },
+  { num: '01', name: 'Prioritize', human: true },
+  { num: '02', name: 'Groom & clarify' },
+  { num: '03', name: 'Design & plan' },
+  { num: '04', name: 'Implement' },
 ];
 
+// DOM order runs right to left on the return arc
 const loopReturn = [
-  { num: '04', name: 'Release', line: 'Ships with approvals attached.', human: true },
-  { num: '05', name: 'On-call', line: 'Links incident to history.', human: true },
-  { num: '↺', name: 'Back to Spec', line: 'Feeds the next requirement.', human: false, close: true },
+  { num: '05', name: 'Validate & test' },
+  { num: '06', name: 'Review & sign-off', human: true },
+  { num: '07', name: 'Release gate', human: true },
+  { num: '08', name: 'Deploy & monitor' },
 ];
+
+// Which module covers which steps. Read left to right on each arc.
+const bandTop = [
+  { label: 'Your backlog', yours: true, span: 1 },
+  { label: 'TBSP Spec', span: 2 },
+  { label: 'TBSP Code', span: 1 },
+];
+const bandBottom = [
+  { label: 'TBSP On-call', span: 1 },
+  { label: 'Your pipeline', yours: true, span: 1 },
+  { label: 'TBSP Review', span: 1 },
+  { label: 'TBSP Code', span: 1 },
+];
+
+const moduleSteps: Record<string, string> = {
+  Spec: 'Steps 02–03',
+  Code: 'Steps 04–05',
+  Review: 'Step 06',
+  'On-call': 'Step 08',
+};
 
 const innerLoopAgents = ['Claude Code', 'Codex', 'Devin', 'TBSP Code'];
 
@@ -68,23 +92,35 @@ const faqs = [
   ],
 ];
 
-type LoopStep = (typeof loopTop)[number] & { close?: boolean };
+type LoopStep = { num: string; name: string; human?: boolean };
 
-function LoopCell({ step, index }: { step: LoopStep; index: number }) {
-  const classes = ['circuit-cell'];
-  if (step.human) classes.push('circuit-human');
-  if (step.close) classes.push('circuit-close');
+function LoopCell({ step, index, back }: { step: LoopStep; index: number; back?: boolean }) {
   return (
-    <article className={classes.join(' ')}>
+    <article className={step.human ? 'circuit-cell circuit-human' : 'circuit-cell'}>
       <b className="circuit-node">{step.num}</b>
       <h3>{step.name}</h3>
-      <p>{step.line}</p>
-      {index < 2 && (
+      {index < 3 && (
         <i className="circuit-step" aria-hidden="true">
-          {step.close || step.name === 'Release' || step.name === 'On-call' ? '←' : '→'}
+          {back ? '←' : '→'}
         </i>
       )}
     </article>
+  );
+}
+
+function Band({ cells }: { cells: Array<{ label: string; span: number; yours?: boolean }> }) {
+  return (
+    <div className="circuit-band" aria-label="Which module covers each step">
+      {cells.map((cell) => (
+        <span
+          key={cell.label}
+          className={cell.yours ? 'band-cell yours' : 'band-cell'}
+          style={{ gridColumn: `span ${cell.span}` }}
+        >
+          {cell.label}
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -199,12 +235,13 @@ export default function Home() {
               The context comes with it.
             </h2>
             <p>
-              Coding agents own the inner loop. TBSP runs the outer loop around
-              it, on one work record, and the loop closes at Spec.
+              This is the loop your organisation already runs. Coding agents own
+              the inner loop at Implement. TBSP covers the steps around it, one
+              module per job, and a person decides at the marked steps.
             </p>
           </div>
           <div className="circuit-scroll">
-            <figure className="circuit" aria-label="How TBSP works: the outer delivery loop around the coding-agent inner loop">
+            <figure className="circuit" aria-label="How TBSP works: the eight-step delivery loop, the modules that cover it, and the coding-agent inner loop">
               <div className="circuit-topline">
                 <span>TBSP · The outer loop</span>
                 <span><i className="circuit-legend" aria-hidden="true">H</i> a person decides here</span>
@@ -214,13 +251,14 @@ export default function Home() {
                   <LoopCell key={step.name} step={step} index={index} />
                 ))}
               </div>
+              <Band cells={bandTop} />
               <div className="circuit-core">
                 <i className="circuit-edge circuit-edge-right" aria-hidden="true">
                   <b>↓</b>
                 </i>
                 <div className="circuit-plate">
-                  <span>Inside 02 Code · the coding-agent loop</span>
-                  <strong>Implement → Test → Debug</strong>
+                  <span>Inner loop · inside 04 Implement</span>
+                  <strong>Write code, tests, and make them pass</strong>
                   <ul>
                     {innerLoopAgents.map((agent) => (
                       <li key={agent}>{agent}</li>
@@ -231,16 +269,30 @@ export default function Home() {
                   <b>↑</b>
                 </i>
               </div>
+              <Band cells={bandBottom} />
               <div className="circuit-arc circuit-arc-return">
                 {loopReturn.map((step, index) => (
-                  <LoopCell key={step.name} step={step} index={index} />
+                  <LoopCell key={step.name} step={step} index={index} back />
                 ))}
               </div>
             </figure>
           </div>
+          <div className="circuit-callouts">
+            {modules.map((module) => (
+              <article key={module.name}>
+                <span className="callout-tag">{moduleSteps[module.name]}</span>
+                <h3>TBSP {module.name}</h3>
+                <p>{module.problem}</p>
+                <a href={siteHref(module.path)}>
+                  Explore {module.name} <Arrow />
+                </a>
+              </article>
+            ))}
+          </div>
           <div className="circuit-foot">
             <p>
-              Illustrative. Release runs through your own delivery pipeline.
+              Illustrative. Release gate and Prioritize stay with your pipeline
+              and your backlog; TBSP records the decision and its evidence.
             </p>
             <a href={siteHref('/platform')}>
               See the platform <Arrow />

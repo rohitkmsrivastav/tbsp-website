@@ -469,39 +469,40 @@ main {
    bands, small circular nodes punched out of the rule they sit on, condensed
    labels. No boxes with gaps, no floating labels. Loop closes On-call -> Spec. */
 .circuit-scroll { overflow-x:auto; }
+.circuit-callouts { overflow-x:auto; }
 .circuit { border:1px solid var(--pale-line); margin:0; position:relative; }
 .circuit-topline { border-bottom:1px solid var(--pale-line); color:#98a3ae; display:flex; font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; justify-content:space-between; letter-spacing:.07em; padding:15px 22px; text-transform:uppercase; }
 .circuit-topline span:first-child { color:#c4ccd4; font-weight:600; }
-.circuit-arc { display:grid; grid-template-columns:repeat(3,1fr); position:relative; }
-.circuit-arc:before { background:#3a4756; content:""; height:1px; left:36px; position:absolute; right:calc(100% / 3 - 36px); top:40px; }
+.circuit-arc { display:grid; grid-template-columns:repeat(4,1fr); position:relative; }
+.circuit-arc:before { background:#3a4756; content:""; height:1px; left:36px; position:absolute; right:calc(100% / 4 - 36px); top:40px; }
 .circuit-arc-return { direction:rtl; }
 .circuit-arc-return .circuit-cell { animation-name:circuit-flow-return; }
-.circuit-cell { animation:circuit-flow 16s linear infinite; color:#8e99a3; direction:ltr; padding:30px 26px 30px; position:relative; will-change:background-color,box-shadow; }
+.circuit-cell { animation:circuit-flow 20s linear infinite; color:#8e99a3; direction:ltr; padding:30px 22px 28px; position:relative; will-change:background-color,box-shadow; }
 .circuit-cell+.circuit-cell { border-left:1px solid var(--pale-line); }
 .circuit-arc .circuit-cell:nth-child(1) { animation-delay:0s; }
 .circuit-arc .circuit-cell:nth-child(2) { animation-delay:2s; }
 .circuit-arc .circuit-cell:nth-child(3) { animation-delay:4s; }
-.circuit-arc-return .circuit-cell:nth-child(1) { animation-delay:8s; }
-.circuit-arc-return .circuit-cell:nth-child(2) { animation-delay:10s; }
-.circuit-arc-return .circuit-cell:nth-child(3) { animation-delay:12s; }
-.circuit-cell h3 { color:white; font-size:22px; font-weight:600; letter-spacing:-.03em; margin:19px 0 4px; }
+.circuit-arc .circuit-cell:nth-child(4) { animation-delay:6s; }
+.circuit-arc-return .circuit-cell:nth-child(1) { animation-delay:10s; }
+.circuit-arc-return .circuit-cell:nth-child(2) { animation-delay:12s; }
+.circuit-arc-return .circuit-cell:nth-child(3) { animation-delay:14s; }
+.circuit-arc-return .circuit-cell:nth-child(4) { animation-delay:16s; }
+.circuit-cell h3 { color:white; font-size:20px; font-weight:600; letter-spacing:-.03em; margin:19px 0 0; }
 .circuit-cell p { color:#aeb7c0; font-size:13px; font-weight:400; margin:0; }
 .circuit-human h3:after { border:1px solid var(--oxide); border-radius:50%; color:var(--oxide); content:"H"; display:inline-grid; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; height:17px; margin-left:9px; place-items:center; vertical-align:middle; width:17px; }
 .circuit-legend { border:1px solid var(--oxide); border-radius:50%; color:var(--oxide); display:inline-grid; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; font-style:normal; height:15px; margin-right:6px; place-items:center; vertical-align:-3px; width:15px; }
-.circuit-close h3 { color:#c4ccd4; }
-.circuit-close .circuit-node { border-style:dashed; }
 .circuit-node,.circuit-step,.circuit-edge b { align-items:center; background:var(--forest); border:1px solid #56636f; border-radius:50%; color:#c4ccd4; display:flex; font:600 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; height:21px; justify-content:center; width:21px; }
-.circuit-node { animation:circuit-node-flow 16s linear infinite; animation-delay:inherit; }
+.circuit-node { animation:circuit-node-flow 20s linear infinite; animation-delay:inherit; }
 .circuit-step { font-size:11px; position:absolute; right:-11px; top:30px; z-index:2; }
 .circuit-arc-return .circuit-step { left:-11px; right:auto; }
-.circuit-core { border-bottom:1px solid var(--pale-line); border-top:1px solid var(--pale-line); padding:46px 0; position:relative; }
-.circuit-edge { animation:circuit-edge-flow 16s linear infinite; bottom:0; position:absolute; top:0; width:1px; }
-.circuit-edge b { animation:circuit-node-flow 16s linear infinite; animation-delay:inherit; font-size:10px; position:absolute; top:50%; transform:translateY(-50%); }
+.circuit-core { padding:40px 0; position:relative; }
+.circuit-edge { animation:circuit-edge-flow 20s linear infinite; bottom:0; position:absolute; top:0; width:1px; }
+.circuit-edge b { animation:circuit-node-flow 20s linear infinite; animation-delay:inherit; font-size:10px; position:absolute; top:50%; transform:translateY(-50%); }
 .circuit-edge-right b { right:4px; }
 .circuit-edge-left b { left:4px; }
-.circuit-edge-right { animation-delay:6s; right:-1px; }
-.circuit-edge-left { animation-delay:14s; left:-1px; }
-.circuit-plate { animation:circuit-plate-flow 16s linear infinite; animation-delay:2s; background:#1a2431; border:1px solid #2c3946; margin:0 auto; max-width:560px; padding:26px 30px 24px; text-align:center; }
+.circuit-edge-right { animation-delay:8s; right:-1px; }
+.circuit-edge-left { animation-delay:18s; left:-1px; }
+.circuit-plate { animation:circuit-plate-flow 20s linear infinite; animation-delay:6s; background:#1a2431; border:1px solid #2c3946; margin:0 auto; max-width:560px; padding:26px 30px 24px; text-align:center; }
 .circuit-plate>span { color:#85919c; display:block; font:500 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.09em; text-transform:uppercase; }
 .circuit-plate strong { color:white; display:block; font-size:19px; font-weight:600; letter-spacing:-.025em; margin:12px 0 18px; }
 .circuit-plate ul { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; list-style:none; margin:0; padding:0; }
@@ -510,27 +511,40 @@ main {
 .circuit-foot p { margin:0; max-width:70ch; }
 .circuit-foot a { border-bottom:1px solid #56636f; color:white; font-size:13px; font-weight:600; padding-bottom:4px; white-space:nowrap; }
 @keyframes circuit-flow {
-  0%,12.5% { background-color:rgba(242,178,58,.16); box-shadow:inset 0 -2px 0 var(--oxide); }
-  12.51%,100% { background-color:transparent; box-shadow:inset 0 -2px 0 transparent; }
+  0%,10% { background-color:rgba(242,178,58,.16); box-shadow:inset 0 -2px 0 var(--oxide); }
+  10.01%,100% { background-color:transparent; box-shadow:inset 0 -2px 0 transparent; }
 }
 @keyframes circuit-flow-return {
-  0%,12.5% { background-color:rgba(242,178,58,.16); box-shadow:inset 0 2px 0 var(--oxide); }
-  12.51%,100% { background-color:transparent; box-shadow:inset 0 2px 0 transparent; }
+  0%,10% { background-color:rgba(242,178,58,.16); box-shadow:inset 0 2px 0 var(--oxide); }
+  10.01%,100% { background-color:transparent; box-shadow:inset 0 2px 0 transparent; }
 }
 @keyframes circuit-node-flow {
-  0%,12.5% { background-color:var(--oxide); border-color:var(--oxide); color:var(--ink); }
-  12.51%,100% { background-color:var(--forest); border-color:#56636f; color:#c4ccd4; }
+  0%,10% { background-color:var(--oxide); border-color:var(--oxide); color:var(--ink); }
+  10.01%,100% { background-color:var(--forest); border-color:#56636f; color:#c4ccd4; }
 }
 @keyframes circuit-edge-flow {
-  0%,12.5% { background-color:var(--oxide); }
-  12.51%,100% { background-color:var(--pale-line); }
+  0%,10% { background-color:var(--oxide); }
+  10.01%,100% { background-color:var(--pale-line); }
 }
 @keyframes circuit-plate-flow {
-  0%,12.5% { border-color:var(--oxide); }
-  12.51%,100% { border-color:#2c3946; }
+  0%,10% { border-color:var(--oxide); }
+  10.01%,100% { border-color:#2c3946; }
 }
+/* module coverage bands: which TBSP module covers which steps */
+.circuit-band { border-bottom:1px solid var(--pale-line); border-top:1px solid var(--pale-line); display:grid; grid-template-columns:repeat(4,1fr); }
+.band-cell { background:#1a2431; border-left:1px solid var(--pale-line); color:#c4ccd4; font:600 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.09em; padding:9px 22px; text-transform:uppercase; }
+.band-cell:first-child { border-left:0; }
+.band-cell.yours { background:transparent; color:#85919c; font-weight:500; }
+/* one callout per module, under the loop */
+.circuit-callouts { border:1px solid var(--pale-line); border-top:0; display:grid; grid-template-columns:repeat(4,1fr); }
+.circuit-callouts article { border-left:1px solid var(--pale-line); padding:22px 22px 24px; }
+.circuit-callouts article:first-child { border-left:0; }
+.callout-tag { color:#85919c; display:block; font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.09em; margin-bottom:12px; text-transform:uppercase; }
+.circuit-callouts h3 { color:white; font-size:18px; font-weight:600; letter-spacing:-.02em; margin:0 0 8px; }
+.circuit-callouts p { color:#aeb7c0; font-size:13.5px; line-height:1.55; margin:0 0 14px; }
+.circuit-callouts a { border-bottom:1px solid #56636f; color:white; font-size:12px; font-weight:600; padding-bottom:3px; }
 @media (max-width:980px) {
-  .circuit { min-width:900px; }
+  .circuit,.circuit-callouts { min-width:900px; }
   .circuit-foot { flex-direction:column; gap:14px; }
 }
 @media (prefers-reduced-motion:reduce) {

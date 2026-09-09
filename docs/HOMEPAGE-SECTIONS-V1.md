@@ -61,15 +61,18 @@ Paper-2 band with hairlines. One sentence on the Capillary origin, three outline
 
 ## 3. How TBSP works — `.workflow-section`, `.circuit`
 
-Dark. Heading grid with `.inverse`. Then the circuit:
+Dark. Heading grid with `.inverse`. The circuit is the sales deck's outer loop, drawn in the site grammar:
 
 - `.circuit-topline`: "TBSP · The outer loop" left, H legend right.
-- `.circuit-arc` (top): Spec, Code, Review. `.circuit-core`: two vertical edges and the `.circuit-plate` ("Inside 02 Code · the coding-agent loop", "Implement → Test → Debug", agent chips). `.circuit-arc.circuit-arc-return` (bottom, right to left): Release, On-call, Back to Spec (`.circuit-close`, dashed node, ↺).
-- Each `.circuit-cell`: node, h3 stage name, one line of three to five words on what TBSP does. `.circuit-human` adds the H badge. Nothing else in the cell; the verbose three-slot version was rejected.
-- Animation: a 16s pulse of amber wash, 2px inner edge and lit node travels the six cells and both edges. Off under reduced motion.
+- Top arc, four cells: Prioritize (H), Groom & clarify, Design & plan, Implement. Return arc (DOM order runs right to left): Validate & test, Review & sign-off (H), Release gate (H), Deploy & monitor. The left edge closes the loop back to Prioritize.
+- Each `.circuit-cell` carries only a node and the step name. `.circuit-human` adds the H badge. No copy in the cells.
+- `.circuit-band` under the top arc and above the return arc shows which module covers which steps: Your backlog (dashed, yours), TBSP Spec spanning Groom and Design, TBSP Code spanning Implement and Validate, TBSP Review under Review & sign-off, Your pipeline under Release gate, TBSP On-call under Deploy & monitor. Module cells are raised slate with white condensed labels; "yours" cells are transparent and muted. Amber is never used for coverage, because amber means a person decides.
+- `.circuit-plate` sits inside the loop under Implement: the inner loop, agent chips.
+- `.circuit-callouts`: four cells beneath the figure, one per module, each with a step-range tag, the module name, its one-line promise from `modules` in `site.tsx`, and the Explore link.
+- Animation: a 20s pulse travels the eight cells and the two edges, two seconds each. Off under reduced motion.
 - `.circuit-foot`: one illustrative note and the platform link.
 
-Data lives in `loopTop` and `loopReturn` in `app/page.tsx`; the `LoopCell` component renders both arcs.
+Data: `loopTop`, `loopReturn`, `bandTop`, `bandBottom`, `moduleSteps` in `app/page.tsx`. Steps are the deck's names and are the authority; module names stay as they are. The loop closes at Prioritize.
 
 ## 4. Modules — `.modules`, `.module-grid`
 
