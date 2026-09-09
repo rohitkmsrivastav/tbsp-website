@@ -163,9 +163,9 @@ export default function Home() {
           <p className="section-index section-index-light">How TBSP works</p>
           <div className="section-heading inverse">
             <h2>
-              Ticket in, deploy out.
+              From ticket to deploy,
               <br />
-              What TBSP does in between.
+              here is what TBSP does.
             </h2>
             <p>
               Spec writes the acceptance criteria. Code opens the PR and runs the
