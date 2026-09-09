@@ -15,6 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <noscript>
+          <style>{`.morph::before{display:none}.morph-final{opacity:1}`}</style>
+        </noscript>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

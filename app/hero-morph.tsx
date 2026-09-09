@@ -213,9 +213,6 @@ export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: 
     <span ref={hostRef} className="morph" data-from={from} onClick={run} title="Replay">
       <span className="morph-final">{to}</span>
       <canvas ref={canvasRef} className="morph-canvas" aria-hidden="true" />
-      <noscript>
-        <style>{`.morph::before{display:none}.morph-final{opacity:1}`}</style>
-      </noscript>
     </span>
   );
 }
