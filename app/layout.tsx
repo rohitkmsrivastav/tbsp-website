@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'TBSP — Turn faster coding into better delivery',
+  title: 'TBSP — Ship the way your best engineers do',
   description:
     'TBSP connects requirements, code, reviews, and production context so enterprise teams can carry decisions and evidence through software delivery.',
 };
