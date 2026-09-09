@@ -37,7 +37,7 @@ const CARDS: Array<{ name: string; side: 'top' | 'bottom'; col: string; stem: nu
 const AGENTS = ['Claude Code', 'Codex', 'Devin', 'TBSP Code'];
 
 // Release has no module card: it runs through the customer's pipeline.
-const RELEASE_NOTE = 'Your pipeline. TBSP records the approval and the deployed version.';
+const RELEASE_NOTE = 'Your CI/CD. TBSP logs the approval and the deployed version.';
 
 export function HowTimeline() {
   const [active, setActive] = useState<string | null>(null);

@@ -163,15 +163,15 @@ export default function Home() {
           <p className="section-index section-index-light">How TBSP works</p>
           <div className="section-heading inverse">
             <h2>
-              Where TBSP does the work,
+              Ticket in, deploy out.
               <br />
-              and where a person decides.
+              What TBSP does in between.
             </h2>
             <p>
-              One ticket moves through five stages on one record. TBSP acts at
-              Spec, Code, Review and On-call. Release runs through your own
-              pipeline. A person decides at Review and Release. Coding agents
-              write the code inside Code.
+              Spec writes the acceptance criteria. Code opens the PR and runs the
+              tests. Review checks the PR against the spec. On-call ties the alert
+              back to the deploy. Release is your pipeline. Humans approve at
+              review and release.
             </p>
           </div>
           <HowTimeline />
