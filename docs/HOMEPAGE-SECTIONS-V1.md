@@ -59,20 +59,22 @@ Copy shape: a verb-led promise, one lede sentence about what TBSP connects, one 
 
 Paper-2 band with hairlines. One sentence on the Capillary origin, three outlined chips for the audience. Do not grow it.
 
-## 3. How TBSP works — `.workflow-section`, `.circuit`
+## 3. How TBSP works — `.workflow-section`, `.tl`
 
-Dark. Heading grid with `.inverse`. The circuit is the sales deck's outer loop, drawn in the site grammar:
+Dark. Heading grid with `.inverse`: "One work item, from request to production. TBSP at every step around the code." and a one-line lede that explains the three marks.
 
-- `.circuit-topline`: "TBSP · The outer loop" left, H legend right.
-- Top arc, four cells: Prioritize (H), Groom & clarify, Design & plan, Implement. Return arc (DOM order runs right to left): Validate & test, Review & sign-off (H), Release gate (H), Deploy & monitor. The left edge closes the loop back to Prioritize.
-- Each `.circuit-cell` carries only a node and the step name. `.circuit-human` adds the H badge. No copy in the cells.
-- `.circuit-band` under the top arc and above the return arc shows which module covers which steps: Your backlog (dashed, yours), TBSP Spec spanning Groom and Design, TBSP Code spanning Implement and Validate, TBSP Review under Review & sign-off, Your pipeline under Release gate, TBSP On-call under Deploy & monitor. Module cells are raised slate with white condensed labels; "yours" cells are transparent and muted. Amber is never used for coverage, because amber means a person decides.
-- `.circuit-plate` sits inside the loop under Implement: the inner loop, agent chips.
-- `.circuit-callouts`: four cells beneath the figure, one per module, each with a step-range tag, the module name, its one-line promise from `modules` in `site.tsx`, and the Explore link.
-- Animation: a 20s pulse travels the eight cells and the two edges, two seconds each. Off under reduced motion.
-- `.circuit-foot`: one illustrative note and the platform link.
+The figure follows Augment Code's depiction, in the site grammar:
 
-Data: `loopTop`, `loopReturn`, `bandTop`, `bandBottom`, `moduleSteps` in `app/page.tsx`. Steps are the deck's names and are the authority; module names stay as they are. The loop closes at Prioritize.
+- `.tl` is a 24-column grid on a sunken ground with six rows: cards above, stems, the bar, stage words, stems, cards below.
+- `.tl-bar`: 24 segments of varying width. `tl-seg-on` (light) is where TBSP acts; `tl-seg-off` (raised slate) is your own process; `tl-seg-gate` (amber, H) is a human decision, at Review and Release; `tl-seg-done` carries the check at the end.
+- `.tl-stages`: Spec, Code, Review, Release, On-call under the bar, each spanning its columns.
+- Four `.tl-card`s, TBSP Spec and TBSP Review above, TBSP Code and TBSP On-call below. Each: a tag with a small square (amber for Review), the module name, its one-line promise from `modules` in `site.tsx`, and an Explore link. The Code card also carries the agent chips: that is the inner loop, stated in one line.
+- `.tl-stem`: a dashed vertical rule in one grid column, dropping from each card onto the segment it explains.
+- No ambient animation. Below 900px the grid becomes a stack: bar, stage words, then the four cards; stems hide.
+
+Data: `timeline`, `stages` and `cards` in `app/page.tsx`. Column numbers in `cards` place each card and its stem; keep a stem inside a light or amber segment of its stage.
+
+Rejected on the way here on 2026-09-09: the six-cell circuit with three-slot copy (too verbose), the eight-step deck loop with coverage bands and callouts (too much to parse), a two-loop abstraction (too little meaning), a growing-record stack with bare lines (lost the meaning). The deck's eight steps remain the sales artefact; the site shows five stages.
 
 ## 4. Modules — `.modules`, `.module-grid`
 
