@@ -1,38 +1,9 @@
 import { HeroMorph } from './hero-morph';
+import { HowTimeline } from './how-timeline';
 import { InterfacesSwitcher } from './interfaces-switcher';
 import { Arrow, modules, PageFrame, siteHref, PageCta } from './site';
 
 export const dynamic = 'force-static';
-
-// How TBSP works: one work item across a 24-segment timeline.
-// kind: 'on' = TBSP acts, 'off' = your process, 'gate' = a person decides, 'done' = shipped.
-type Seg = { kind: 'on' | 'off' | 'gate' | 'done'; span: number };
-const timeline: Seg[] = [
-  // Spec · columns 1–5
-  { kind: 'off', span: 1 }, { kind: 'on', span: 2 }, { kind: 'on', span: 1 }, { kind: 'off', span: 1 },
-  // Code · 6–11
-  { kind: 'off', span: 1 }, { kind: 'on', span: 3 }, { kind: 'off', span: 1 }, { kind: 'off', span: 1 },
-  // Review · 12–16
-  { kind: 'on', span: 2 }, { kind: 'gate', span: 2 }, { kind: 'off', span: 1 },
-  // Release · 17–20
-  { kind: 'off', span: 1 }, { kind: 'gate', span: 1 }, { kind: 'off', span: 1 }, { kind: 'off', span: 1 },
-  // On-call · 21–24
-  { kind: 'on', span: 2 }, { kind: 'done', span: 2 },
-];
-const stages: Array<[string, number, number]> = [
-  ['Spec', 1, 5],
-  ['Code', 6, 6],
-  ['Review', 12, 5],
-  ['Release', 17, 4],
-  ['On-call', 21, 4],
-];
-// cards: which module, which side, where the card sits and where its stem lands (grid columns)
-const cards: Array<{ name: string; side: 'top' | 'bottom'; col: string; stem: number; human?: boolean; agents?: boolean }> = [
-  { name: 'Spec', side: 'top', col: '1 / span 7', stem: 3 },
-  { name: 'Review', side: 'top', col: '11 / span 7', stem: 13, human: true },
-  { name: 'Code', side: 'bottom', col: '5 / span 7', stem: 8, agents: true },
-  { name: 'On-call', side: 'bottom', col: '18 / span 7', stem: 22 },
-];
 
 const innerLoopAgents = ['Claude Code', 'Codex', 'Devin', 'TBSP Code'];
 
@@ -192,63 +163,18 @@ export default function Home() {
           <p className="section-index section-index-light">How TBSP works</p>
           <div className="section-heading inverse">
             <h2>
-              One work item, from request to production.
+              Where TBSP does the work,
               <br />
-              TBSP at every step around the code.
+              and where a person decides.
             </h2>
             <p>
-              Light segments are where TBSP acts. Amber is where a person
-              decides. Coding agents write the code inside the Code stage.
+              One ticket moves through five stages on one record. TBSP acts at
+              Spec, Code, Review and On-call. Release runs through your own
+              pipeline. A person decides at Review and Release. Coding agents
+              write the code inside Code.
             </p>
           </div>
-          <figure className="tl" aria-label="How TBSP works: one work item moving from Spec to On-call, with the module that acts at each stage">
-            {cards.map((card) => {
-              const module = modules.find((m) => m.name === card.name)!;
-              return (
-                <article
-                  key={card.name}
-                  className={`tl-card tl-card-${card.side}`}
-                  style={{ gridColumn: card.col }}
-                >
-                  <span className={card.human ? 'tl-tag tl-tag-human' : 'tl-tag'}>{card.name}</span>
-                  <h3>TBSP {card.name}</h3>
-                  <p>{module.problem}</p>
-                  {card.agents && (
-                    <ul className="tl-agents">
-                      {innerLoopAgents.map((agent) => (
-                        <li key={agent}>{agent}</li>
-                      ))}
-                    </ul>
-                  )}
-                  <a href={siteHref(module.path)}>
-                    Explore {card.name} <Arrow />
-                  </a>
-                </article>
-              );
-            })}
-            {cards.map((card) => (
-              <i
-                key={`stem-${card.name}`}
-                className={`tl-stem tl-stem-${card.side}`}
-                style={{ gridColumn: card.stem }}
-                aria-hidden="true"
-              />
-            ))}
-            <div className="tl-bar" aria-hidden="true">
-              {timeline.map((seg, index) => (
-                <span key={index} className={`tl-seg tl-seg-${seg.kind}`} style={{ gridColumn: `span ${seg.span}` }}>
-                  {seg.kind === 'gate' ? 'H' : seg.kind === 'done' ? '✓' : ''}
-                </span>
-              ))}
-            </div>
-            <div className="tl-stages">
-              {stages.map(([name, start, span]) => (
-                <span key={name} style={{ gridColumn: `${start} / span ${span}` }}>
-                  {name}
-                </span>
-              ))}
-            </div>
-          </figure>
+          <HowTimeline />
         </div>
       </section>
 

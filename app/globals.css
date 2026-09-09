@@ -490,14 +490,59 @@ main {
 .tl-seg-gate { align-items:center; background:var(--oxide); border-color:var(--oxide); color:var(--ink); display:grid; font:600 12px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; justify-items:center; }
 .tl-seg-done { align-items:center; background:#e6e9ec; border-color:#e6e9ec; color:var(--ink); display:grid; font-size:16px; justify-items:center; }
 .tl-stages { display:grid; grid-column:1 / -1; grid-row:4; grid-template-columns:repeat(24,1fr); padding:12px 0 0; }
-.tl-stages span { color:#85919c; font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.14em; text-transform:uppercase; }
+/* hover mapping: point at a stage, a segment or a card and that stage lights up */
+.tl-seg,.tl-card,.tl-stem,.tl-stage { transition:opacity .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease; }
+.tl-stage { appearance:none; background:transparent; border:0; color:#85919c; cursor:default; font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.14em; padding:0; position:relative; text-align:left; text-transform:uppercase; }
+.tl-stage:focus-visible { outline:2px solid var(--oxide); outline-offset:3px; }
+.tl-stages { align-items:start; }
+.tl.has-active .is-dim { opacity:.32; }
+.tl-seg.is-active.tl-seg-off { background:#26313d; border-color:#3a4756; }
+.tl-card.is-active { border-color:#e6e9ec; }
+.tl-card.is-active h3 { color:white; }
+.tl-stem.is-active { border-left-style:solid; border-left-color:#e6e9ec; }
+.tl-stage.is-active { color:white; }
+.tl-release-note { color:#c4ccd4; display:block; font:400 12px "IBM Plex Sans","Helvetica Neue",Arial,sans-serif; letter-spacing:0; margin-top:8px; max-width:26ch; text-transform:none; }
 @media (max-width:900px) {
   .tl { display:block; padding:20px; }
   .tl-bar { gap:3px; }
   .tl-stem { display:none; }
   .tl-stages { margin-bottom:20px; }
-  .tl-stages span { font-size:9px; letter-spacing:.08em; }
+  .tl-stage { font-size:9px; letter-spacing:.08em; }
   .tl-card { margin-top:10px; }
+}
+/* Module quadrants. Four flat tones of paper, one step apart, so each quadrant
+   reads as its own surface without a gradient. Each card carries a small loop
+   marker showing where the module sits in the outer loop above. */
+.module-grid { border:1px solid var(--line); display:grid; grid-template-columns:repeat(2,1fr); }
+.module-card { --tone:var(--paper); background:var(--tone); border-bottom:1px solid var(--line); padding:26px 32px 30px; }
+.module-card:nth-child(even) { border-left:1px solid var(--line); }
+.module-card:nth-child(n+3) { border-bottom:0; }
+.module-card-01 { --tone:#eceef0; }
+.module-card-02 { --tone:#e6e9ec; }
+.module-card-03 { --tone:#e1e4e8; }
+.module-card-04 { --tone:#dadfe4; }
+.module-top { align-items:center; display:flex; justify-content:space-between; margin-bottom:26px; }
+.module-num { color:var(--muted); font:500 11px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.09em; text-transform:uppercase; }
+.module-loop { display:grid; grid-template-columns:repeat(4,1fr); height:26px; list-style:none; margin:0; padding:0; position:relative; width:188px; }
+.module-loop:before { background:var(--line); content:""; height:1px; left:12.5%; position:absolute; right:12.5%; top:4px; }
+.module-loop li { position:relative; text-align:center; }
+.module-loop li:before { background:var(--tone); border:1px solid var(--muted); border-radius:50%; content:""; display:block; height:9px; margin:0 auto; position:relative; width:9px; z-index:1; }
+.module-loop li.on:before { background:var(--oxide); border-color:var(--oxide); }
+.module-loop li span { color:var(--muted); display:block; font:500 9px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.06em; margin-top:5px; text-transform:uppercase; }
+.module-loop li.on span { color:var(--ink); font-weight:600; }
+.module-card h3 { font-size:1.75rem; margin-bottom:14px; }
+.module-card > p { color:var(--muted); }
+.module-card .module-problem { color:var(--ink); font-weight:500; margin-bottom:8px; }
+.module-card dl { display:grid; gap:20px; grid-template-columns:1fr 1fr; margin:24px 0; }
+.module-card dl > div { border-top:1px solid var(--line); padding-top:12px; }
+.module-card dt { color:var(--muted); font:500 10px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.09em; text-transform:uppercase; }
+.module-card dd { font-size:0.9375rem; margin:6px 0 0; }
+@media (max-width:980px) {
+  .module-grid { grid-template-columns:1fr; }
+  .module-card:nth-child(even) { border-left:0; }
+  .module-card:nth-child(n+3) { border-bottom:1px solid var(--line); }
+  .module-card:last-child { border-bottom:0; }
+  .module-top { align-items:start; flex-direction:column; gap:16px; }
 }
 /* Fit and control: a ledger, not cards. Hairline rows, label left, fact right. */
 .fit-ledger { border-top:1px solid var(--line); margin:0; }
