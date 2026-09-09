@@ -275,11 +275,42 @@ main {
   text-decoration-thickness: 4px;
   text-underline-offset: 9px;
 }
+/* The redline. On load the amber pencil strikes through "Code" and "Ship" is
+   written in beside it. Pure CSS, runs once, ends on the static layout below.
+   Timeline: strike draws 0.35s–0.85s, Code fades to muted as it passes,
+   Ship writes in 0.9s–1.4s. Reduced motion shows the finished state. */
 .hero h1 .strike {
-  color: var(--muted);
-  text-decoration: line-through;
-  text-decoration-color: var(--oxide);
-  text-decoration-thickness: 4px;
+  animation: strike-fade .45s ease .55s both;
+  color: var(--ink);
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+}
+.hero h1 .strike::after {
+  animation: strike-draw .5s cubic-bezier(.2,.7,.2,1) .35s both;
+  background: var(--oxide);
+  content: "";
+  height: .07em;
+  left: -.04em;
+  position: absolute;
+  right: -.04em;
+  top: .5em;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.hero h1 .ship {
+  animation: ship-write .5s cubic-bezier(.2,.7,.2,1) .9s both;
+  clip-path: inset(-.15em 100% -.15em -.05em);
+  display: inline-block;
+}
+@keyframes strike-draw { to { transform: scaleX(1); } }
+@keyframes strike-fade { to { color: var(--muted); } }
+@keyframes ship-write { to { clip-path: inset(-.15em -.1em -.15em -.05em); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 .strike, .hero h1 .strike::after, .hero h1 .ship { animation: none; }
+  .hero h1 .strike { color: var(--muted); }
+  .hero h1 .strike::after { transform: none; }
+  .hero h1 .ship { clip-path: none; }
 }
 .hero-lede {
   max-width: 730px;
@@ -1108,8 +1139,8 @@ footer a {
     text-underline-offset: 6px;
     text-decoration-thickness: 3px;
   }
-  .hero h1 .strike {
-    text-decoration-thickness: 3px;
+  .hero h1 .strike::after {
+    height: 3px;
   }
   .eyebrow,
   .section-index {

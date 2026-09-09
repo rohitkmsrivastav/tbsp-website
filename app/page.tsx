@@ -96,7 +96,7 @@ export default function Home() {
             AI-assisted software delivery for enterprise teams
           </p>
           <h1>
-            <s className="strike">Code</s> Ship the way
+            <s className="strike">Code</s> <span className="ship">Ship</span> the way
             <br className="desktop-break" /> your best engineers do.
           </h1>
           <p className="hero-lede">
