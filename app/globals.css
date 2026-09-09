@@ -275,15 +275,17 @@ main {
   text-decoration-thickness: 4px;
   text-underline-offset: 9px;
 }
-/* The hero morph. "Code" pixelates and its squares fly into place as "Ship"
-   on a canvas overlay; the DOM always holds the final word. */
-.morph { cursor: default; display: inline-block; position: relative; }
-.morph-final { opacity: 0; }
-.morph::before { content: attr(data-from); line-height: inherit; opacity: var(--start-op, 1); position: absolute; right: 0; top: 0; white-space: nowrap; }
-.morph-canvas { left: 0; opacity: 0; pointer-events: none; position: absolute; top: 0; }
+/* The hero's first word is a bitmap: square cells from the headline face as
+   inline SVG, present from first paint. On load the cells of Code fly into
+   Ship and stay. Width in flow is the final word; the wider original spills
+   into the left margin. */
+.morph { cursor: default; display: inline-block; line-height: 0; margin-left: calc(-5em / 15); position: relative; vertical-align: baseline; }
+.morph svg { display: inline-block; overflow: visible; }
+.morph .morph-ship { display: none; }
+.morph-sr { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
 @media (prefers-reduced-motion: reduce) {
-  .morph-final { opacity: 1; }
-  .morph::before { display: none; }
+  .morph .morph-code { display: none; }
+  .morph .morph-ship { display: inline-block; }
 }
 .hero-lede {
   max-width: 730px;

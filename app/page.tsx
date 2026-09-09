@@ -97,7 +97,7 @@ export default function Home() {
             AI-assisted software delivery for enterprise teams
           </p>
           <h1>
-            <HeroMorph from="Code" to="Ship" /> the way
+            <HeroMorph /> the way
             <br className="desktop-break" /> your best engineers do.
           </h1>
           <p className="hero-lede">
