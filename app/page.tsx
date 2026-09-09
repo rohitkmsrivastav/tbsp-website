@@ -1,65 +1,61 @@
+import { InterfacesSwitcher } from './interfaces-switcher';
 import { Arrow, modules, PageFrame, siteHref, PageCta } from './site';
 
 export const dynamic = 'force-static';
 
-const journey = [
-  {
-    name: 'Spec',
-    kind: 'Module',
-    title: 'Make the requirement complete.',
-    copy: 'A request to add customer-data exports becomes acceptance criteria, system constraints, and a plan.',
-    record: 'Requirement + source links',
-    decision: 'The requirement owner approves the scope.',
-  },
-  {
-    name: 'Code',
-    kind: 'Module',
-    title: 'Build with the system in view.',
-    copy: 'The implementation carries the approved export behaviour, repository conventions, and test requirements.',
-    record: '+ Implementation + test results',
-  },
-  {
-    name: 'Review',
-    kind: 'Module',
-    title: 'Check the change against its intent.',
-    copy: 'A reviewer can trace export permissions and test coverage back to the original acceptance criteria.',
-    record: '+ Findings + review decision',
-    decision: 'The reviewer approves or requests changes.',
-  },
-  {
-    name: 'Release',
-    kind: 'Delivery step',
-    title: 'Keep the approved change connected.',
-    copy: 'The release record links the deployed export feature to its tests and approval evidence.',
-    record: '+ Deployed version',
-    decision: 'Your release approval process still applies.',
-  },
-  {
-    name: 'On-call',
-    kind: 'Module',
-    title: 'Investigate with the history attached.',
-    copy: 'An export failure can be investigated alongside the deployed version, implementation, and earlier decisions.',
-    record: '+ Production evidence',
-    decision: 'An operator approves any remediation.',
-  },
+const loopTop = [
+  { num: '01', name: 'Spec', line: 'Completes the requirement.', human: true },
+  { num: '02', name: 'Code', line: 'Gives agents the context.', human: false },
+  { num: '03', name: 'Review', line: 'Checks change against intent.', human: true },
+];
+
+const loopReturn = [
+  { num: '04', name: 'Release', line: 'Ships with approvals attached.', human: true },
+  { num: '05', name: 'On-call', line: 'Links incident to history.', human: true },
+  { num: '↺', name: 'Back to Spec', line: 'Feeds the next requirement.', human: false, close: true },
+];
+
+const innerLoopAgents = ['Claude Code', 'Codex', 'Devin', 'TBSP Code'];
+
+const fitFacts: Array<[string, string]> = [
+  [
+    'Connects to',
+    'Source control, work tracking and docs, CI/CD, observability. Each connector is enabled for a stated purpose, with its owner, scopes and permitted writes documented first.',
+  ],
+  [
+    'Reads',
+    'Only the sources approved for the workflow: repositories, diffs and reviews, tickets and decisions, test and build results, logs, alerts and incidents. Read and write access are assessed separately.',
+  ],
+  [
+    'Writes',
+    'What the playbook permits and nothing else. Specs, PRs, findings and proposed fixes are created as artifacts; tools run inside server-side execution boundaries.',
+  ],
+  [
+    'Who approves',
+    'Named people at the transitions you designate: scope, review, release, remediation. The decision and its evidence are retained together.',
+  ],
+  [
+    'Records',
+    'Sources, generated artifacts, tool actions, test results, findings, approvals and the deployed version, kept as one record per work item.',
+  ],
 ];
 
 const faqs = [
   [
-    'Does TBSP replace our coding assistant?',
-    'TBSP is designed to work around existing coding tools and engineering systems. It adds shared system context, reusable workflows, approvals, and delivery evidence. TBSP Code is the development module within that workflow; the tool and agent configuration depends on your environment.',
+    'Does TBSP replace our coding agents?',
+    'No. Keep the coding agents you use; TBSP runs the loop around them: shared context, playbooks, approvals and the delivery record. If you want one from us, TBSP Code is a coding agent too.',
   ],
   [
     'Do we need all four modules?',
-    'You can start with one workflow across Spec, Code, Review, or On-call. The modules share a foundation, so you can explore a focused problem before considering a wider rollout.',
+    'No. Start with one. The four share the same context, playbooks and permissions, so adding a second module is configuration, not a second project.',
   ],
   [
     'How would we know whether it is helping?',
-    'Choose a baseline for the work you want to improve: clarification cycles, review turnaround, time spent reconstructing context, or incident investigation time. Assess output quality and adherence to your controls alongside speed. These are evaluation measures, not promised results.',
+    'Choose a baseline for the work you want to improve: clarification cycles, review turnaround, time spent reconstructing context, or incident investigation time. Judge quality and whether it kept to your controls, not just speed. These are evaluation measures, not promised results.',
   ],
   [
     'Will it fit our stack and security requirements?',
-    'The integration and security pages explain the data and permissions involved. Exact connector support, deployment options, model handling, and retention settings need to match your environment before systems are connected.',
+    'Every connector is agreed before it is switched on: what it reads, what it may write, who owns it. Deployment, model handling and retention are settled in the security review. The Fit and control section above and the security page carry the detail.',
   ],
   [
     'What happens in the first conversation?',
@@ -71,6 +67,26 @@ const faqs = [
   ],
 ];
 
+type LoopStep = (typeof loopTop)[number] & { close?: boolean };
+
+function LoopCell({ step, index }: { step: LoopStep; index: number }) {
+  const classes = ['circuit-cell'];
+  if (step.human) classes.push('circuit-human');
+  if (step.close) classes.push('circuit-close');
+  return (
+    <article className={classes.join(' ')}>
+      <b className="circuit-node">{step.num}</b>
+      <h3>{step.name}</h3>
+      <p>{step.line}</p>
+      {index < 2 && (
+        <i className="circuit-step" aria-hidden="true">
+          {step.close || step.name === 'Release' || step.name === 'On-call' ? '←' : '→'}
+        </i>
+      )}
+    </article>
+  );
+}
+
 export default function Home() {
   return (
     <PageFrame>
@@ -80,8 +96,8 @@ export default function Home() {
             AI-assisted software delivery for enterprise teams
           </p>
           <h1>
-            Turn faster coding
-            <br className="desktop-break" /> into <em>better delivery.</em>
+            <s className="strike">Code</s> Ship the way
+            <br className="desktop-break" /> your best engineers do.
           </h1>
           <p className="hero-lede">
             TBSP connects requirements, code, reviews, and production context so
@@ -111,7 +127,7 @@ export default function Home() {
           </div>
           <div className="preview-title">
             <span>Example work item · EX-104</span>
-            <h2>Add customer-data exports</h2>
+            <p className="preview-heading">Add customer-data exports</p>
             <p>
               Requirement, implementation, and decisions. One connected record.
             </p>
@@ -129,7 +145,7 @@ export default function Home() {
               <p>Only authorised users can export customer data.</p>
               <div className="preview-finding">
                 <span className="preview-caption">Review finding</span>
-                <h3>Permission checks need test coverage.</h3>
+                <p className="preview-subheading">Permission checks need test coverage.</p>
                 <p>
                   The acceptance criteria require an access check. Add a test
                   for users without export permission.
@@ -172,53 +188,9 @@ export default function Home() {
         </a>
       </aside>
 
-      <section className="problem page-shell">
-        <p className="section-index">The delivery gap</p>
-        <div className="section-heading">
-          <h2>
-            Code is moving faster.
-            <br />
-            The handoffs still take work.
-          </h2>
-          <p>
-            AI coding tools accelerate implementation. Requirements, reviews,
-            and production investigations still depend on people finding the
-            context.
-          </p>
-        </div>
-        <div className="problem-grid">
-          <article>
-            <h3>Before the code</h3>
-            <p>
-              Engineers chase missing requirements and reconstruct how the
-              existing system works.
-            </p>
-            <span>Repeated clarification</span>
-          </article>
-          <article>
-            <h3>Before the release</h3>
-            <p>
-              Senior reviewers piece together intent, dependencies, and checks
-              across tools.
-            </p>
-            <span>Review and rework</span>
-          </article>
-          <article>
-            <h3>After the change</h3>
-            <p>
-              On-call teams recover what shipped, why it changed, and what was
-              approved.
-            </p>
-            <span>Investigation time</span>
-          </article>
-        </div>
-      </section>
-
       <section className="workflow-section" id="workflow">
         <div className="page-shell">
-          <p className="section-index section-index-light">
-            One example, from request to production
-          </p>
+          <p className="section-index section-index-light">How TBSP works</p>
           <div className="section-heading inverse">
             <h2>
               The work moves on.
@@ -226,73 +198,79 @@ export default function Home() {
               The context comes with it.
             </h2>
             <p>
-              Follow the customer-data export example. Each step adds to the
-              same work record, with decisions visible along the way.
+              Coding agents own the inner loop. TBSP runs the outer loop around
+              it, on one work record, and the loop closes at Spec.
             </p>
           </div>
-          <ol className="delivery-journey">
-            {journey.map((step, index) => (
-              <li
-                key={step.name}
-                className={
-                  step.kind === 'Delivery step'
-                    ? 'journey-step delivery-step'
-                    : 'journey-step'
-                }
-              >
-                <div className="journey-label">
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <strong>{step.name}</strong>
-                  <small>{step.kind}</small>
+          <div className="circuit-scroll">
+            <figure className="circuit" aria-label="How TBSP works: the outer delivery loop around the coding-agent inner loop">
+              <div className="circuit-topline">
+                <span>TBSP · The outer loop</span>
+                <span><i className="circuit-legend" aria-hidden="true">H</i> a person decides here</span>
+              </div>
+              <div className="circuit-arc">
+                {loopTop.map((step, index) => (
+                  <LoopCell key={step.name} step={step} index={index} />
+                ))}
+              </div>
+              <div className="circuit-core">
+                <i className="circuit-edge circuit-edge-right" aria-hidden="true">
+                  <b>↓</b>
+                </i>
+                <div className="circuit-plate">
+                  <span>Inside 02 Code · the coding-agent loop</span>
+                  <strong>Implement → Test → Debug</strong>
+                  <ul>
+                    {innerLoopAgents.map((agent) => (
+                      <li key={agent}>{agent}</li>
+                    ))}
+                  </ul>
                 </div>
-                <div>
-                  <h3>{step.title}</h3>
-                  <p>{step.copy}</p>
-                  {step.decision && (
-                    <p className="human-decision">
-                      <span aria-hidden="true">↳</span> {step.decision}
-                    </p>
-                  )}
-                </div>
-                <div className="record-addition">
-                  <span>Carried forward</span>
-                  <p>{step.record}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <div className="agent-relationship">
-            <strong>Your coding tools remain part of the workflow.</strong>
+                <i className="circuit-edge circuit-edge-left" aria-hidden="true">
+                  <b>↑</b>
+                </i>
+              </div>
+              <div className="circuit-arc circuit-arc-return">
+                {loopReturn.map((step, index) => (
+                  <LoopCell key={step.name} step={step} index={index} />
+                ))}
+              </div>
+            </figure>
+          </div>
+          <div className="circuit-foot">
             <p>
-              TBSP connects the work around implementation: system context,
-              playbooks, checks, and approval records. Agent and connector
-              choices are established for your stack.
+              Illustrative. Release runs through your own delivery pipeline.
             </p>
             <a href={siteHref('/platform')}>
               See the platform <Arrow />
             </a>
           </div>
-          <p className="illustration-note">
-            Illustrative workflow. Release is a delivery step; approvals apply
-            at the relevant decisions rather than forming a separate product
-            module.
-          </p>
         </div>
       </section>
 
       <section className="modules page-shell" id="products">
-        <p className="section-index">Four modules, a shared foundation</p>
+        <p className="section-index">Modules</p>
         <div className="section-heading">
-          <h2>Start where work gets stuck.</h2>
+          <h2>Start with one module.</h2>
           <p>
-            Explore one engineering problem first. Reuse the context model and
-            playbook patterns, with permissions and approvals configured for
-            each workflow.
+            All four run on the same context model, the same playbooks, and the
+            same permissions and approvals. Add the others when you need them.
+            Nothing gets set up twice.
           </p>
         </div>
         <div className="module-grid">
           {modules.map((module) => (
-            <article className="module-card" key={module.name}>
+            <article className={`module-card module-card-${module.number}`} key={module.name}>
+              <div className="module-top">
+                <span className="module-num">{module.number} / 04</span>
+                <ol className="module-loop" aria-label={`Where ${module.name} sits in the loop`}>
+                  {modules.map((m) => (
+                    <li key={m.name} className={m.name === module.name ? 'on' : undefined}>
+                      <span>{m.name}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
               <h3>TBSP {module.name}</h3>
               <p className="module-problem">{module.problem}</p>
               <p>{module.description}</p>
@@ -314,139 +292,104 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        className="proof-example page-shell"
-        aria-labelledby="proof-title"
-      >
-        <div>
-          <p className="section-index">Illustrative case study · fictional</p>
-          <h2 id="proof-title">
-            A review that starts
-            <br /> with the evidence.
-          </h2>
+      <section className="enterprise-fit page-shell" id="enterprise">
+        <div className="section-heading">
+          <div>
+            <p className="section-index">Fit and control</p>
+            <h2>What TBSP connects to, reads, writes, and records.</h2>
+          </div>
           <p>
-            A fictional enterprise team uses the export workflow to explore a
-            familiar bottleneck: reviewers spending time recovering the
-            requirement and test history.
-          </p>
-          <p className="placeholder-note">
-            Placeholder story for this design. This is not a customer
-            endorsement or a measured TBSP result.
+            TBSP sits around your existing stack. Every boundary below is agreed
+            for a workflow before it is switched on, and written down.
           </p>
         </div>
-        <div className="case-comparison">
-          <article>
-            <span>Starting point</span>
-            <h3>Reconstruct the change.</h3>
-            <p>
-              The requirement is in a ticket, the implementation is in a pull
-              request, and the approval discussion is in a separate thread.
-            </p>
-          </article>
-          <article>
-            <span>With a connected work record</span>
-            <h3>Review the change in context.</h3>
-            <p>
-              The reviewer can follow the acceptance criteria, source links,
-              test evidence, and earlier decisions together.
-            </p>
-          </article>
-          <div className="case-measures">
-            <strong>What an evaluation would measure</strong>
-            <p>Review turnaround · clarification cycles · missing evidence</p>
+        <dl className="fit-ledger">
+          {fitFacts.map(([label, fact]) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd>{fact}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="fit-foot">
+          <p>
+            Deployment, model handling, data residency and connector
+            prerequisites are confirmed for your environment during the security
+            review.
+          </p>
+          <div className="fit-links">
+            <a href={siteHref('/integrations')}>
+              Integration scope <Arrow />
+            </a>
+            <a href={siteHref('/security')}>
+              Security and controls <Arrow />
+            </a>
+            <a href={siteHref('/docs/architecture')}>
+              Architecture <Arrow />
+            </a>
+            <a href={siteHref('/surfaces')}>
+              Interfaces <Arrow />
+            </a>
           </div>
         </div>
       </section>
 
-      <section className="enterprise-fit page-shell" id="enterprise">
-        <div className="section-heading">
-          <div>
-            <p className="section-index">
-              Built around your engineering system
-            </p>
+      <section className="surfaces-section" id="surfaces">
+        <div className="page-shell">
+          <p className="section-index section-index-light">Interfaces</p>
+          <div className="section-heading inverse">
             <h2>
-              Keep your tools.
+              The same work item,
               <br />
-              Connect the decisions.
+              wherever the work happens.
             </h2>
+            <p>
+              Identity, permissions, context and the work item carry across
+              desktop, terminal, Slack and Teams. Nothing is re-entered.
+            </p>
           </div>
-          <p>
-            Work across existing repositories and established delivery
-            processes, with explicit boundaries for the context TBSP reads and
-            the actions it can take.
-          </p>
-        </div>
-        <div className="fit-grid">
-          <article>
-            <h3>Context with its sources</h3>
-            <p>
-              Trace requirements, findings, and production evidence back to the
-              work they explain.
-            </p>
-            <a href={siteHref('/integrations')}>
-              Integration scope <Arrow />
-            </a>
-          </article>
-          <article>
-            <h3>Approval where it matters</h3>
-            <p>
-              Keep designated reviewers involved in approval, release, and
-              remediation decisions.
-            </p>
-            <a href={siteHref('/security')}>
-              Security and controls <Arrow />
-            </a>
-          </article>
-          <article>
-            <h3>A record you can inspect</h3>
-            <p>
-              Carry sources, outputs, checks, and decisions through the
-              lifecycle.
-            </p>
-            <a href={siteHref('/docs/architecture')}>
-              Architecture <Arrow />
-            </a>
-          </article>
-        </div>
-        <div className="surface-strip">
-          <span>Where your team uses TBSP</span>
-          <p>Desktop · Terminal · Slack · Teams</p>
-          <a href={siteHref('/surfaces')}>
+          <InterfacesSwitcher />
+          <a className="surface-link" href={siteHref('/surfaces')}>
             Explore interfaces <Arrow />
           </a>
         </div>
       </section>
 
-      <section className="alternatives page-shell">
-        <p className="section-index">Why add TBSP?</p>
-        <h2>Choose how you connect delivery.</h2>
-        <div className="alternative-grid">
-          <article>
-            <h3>Coding tools + coordination</h3>
+      <section className="agents-band">
+        <div className="page-shell agents-layout">
+          <div>
+            <p className="section-index">Agents and models</p>
+            <h2>
+              Bring the agents you use.
+              <br />
+              Choose the models you run.
+            </h2>
             <p>
-              Keep the current stack. Your teams assemble requirements, review
-              context, approvals, and delivery evidence across tools.
+              Coding agents own the inner loop, and TBSP runs the outer loop
+              around them. Both can run on open-weight models served by TBSP,
+              or on a frontier model API you already hold.
+              Providers, the data sent to each, and retention terms are agreed
+              for your environment in the security review.
             </p>
-            <span>Fits when manual handoffs remain manageable.</span>
-          </article>
-          <article>
-            <h3>Build internally</h3>
-            <p>
-              Design the context layer and workflow controls around your needs,
-              then maintain the integrations and operating model.
-            </p>
-            <span>Fits when you want to own the full implementation.</span>
-          </article>
-          <article>
-            <h3>Evaluate TBSP</h3>
-            <p>
-              Assess a shared context and workflow platform around one delivery
-              problem before considering a broader rollout.
-            </p>
-            <span>
-              Fits when connecting the surrounding work is the bottleneck.
-            </span>
-          </article>
+          </div>
+          <div className="agents-chips">
+            <div className="agents-group">
+              <span className="agents-label">Inner loop · coding agents</span>
+              <ul>
+                {innerLoopAgents.map((agent) => (
+                  <li key={agent}>{agent}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="agents-group">
+              <span className="agents-label">Outer loop · Spec, Review, On-call</span>
+              <ul>
+                <li>Open-weight model</li>
+                <li>Frontier model API</li>
+              </ul>
+            </div>
+            <p>Model choice stays yours, for the agents and for the loop around them.</p>
+          </div>
         </div>
       </section>
 
@@ -454,6 +397,10 @@ export default function Home() {
         <div>
           <p className="section-index">Before you start</p>
           <h2>A few practical answers.</h2>
+          <p className="faq-lede">
+            TBSP fits when connecting the work around the code is the
+            bottleneck, not writing the code.
+          </p>
           <a className="section-link" href={siteHref('/docs/evaluation')}>
             Read the evaluation guide <Arrow />
           </a>

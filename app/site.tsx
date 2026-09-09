@@ -7,42 +7,42 @@ export const modules = [
   {
     number: '01',
     name: 'Spec',
-    problem: 'Resolve unclear requirements before implementation.',
+    problem: 'Turn a thin ticket into a spec you can build from.',
     path: '/products/spec',
     description:
-      'Turn an incomplete request into development-ready work grounded in the existing system.',
-    input: 'Request or ticket',
-    output: 'Specification + acceptance criteria',
+      'Reads the ticket, the repo and the ADRs. Writes the acceptance criteria, names the services it touches, and lists the open questions before anyone starts.',
+    input: 'Ticket or request',
+    output: 'Spec: acceptance criteria, affected services, open questions',
   },
   {
     number: '02',
     name: 'Code',
-    problem: 'Give implementation the system knowledge it needs.',
+    problem: 'Give the agent the repo\'s rules, not just the diff.',
     path: '/products/code',
     description:
-      'Plan, build, test, and debug with architecture, conventions, and production context in view.',
-    input: 'Approved work or defect',
-    output: 'Code + tests + implementation evidence',
+      'Plans, implements, runs the tests and debugs with the approved spec, the architecture and your coding conventions in context.',
+    input: 'Approved spec or bug',
+    output: 'PR with tests and verification evidence',
   },
   {
     number: '03',
     name: 'Review',
-    problem: 'Spend review time on the change, with its intent attached.',
+    problem: 'Review the PR against the spec, not just the diff.',
     path: '/products/review',
     description:
-      'Evaluate a change against its requirement, dependencies, controls, and supporting evidence.',
-    input: 'Pull request + requirement',
-    output: 'Findings + approval evidence',
+      'Traces every change back to an acceptance criterion, checks dependencies and required controls, and flags what is missing.',
+    input: 'PR + spec',
+    output: 'Findings + approval record',
   },
   {
     number: '04',
     name: 'On-call',
-    problem: 'Recover change context during an incident.',
+    problem: 'Get from alert to root cause with the history attached.',
     path: '/products/on-call',
     description:
-      'Connect a production symptom to the deployed version, relevant code, and prior decisions.',
+      'Links the alert to the deploy, the diff, the config change and the decisions behind it, then proposes a fix for a person to approve.',
     input: 'Alert or symptom',
-    output: 'Likely causes + action for human approval',
+    output: 'Ranked causes + proposed fix, for approval',
   },
 ];
 

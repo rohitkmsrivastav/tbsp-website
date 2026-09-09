@@ -36,3 +36,7 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# local tooling and build caches
+.claude/
+tsconfig.tsbuildinfo
