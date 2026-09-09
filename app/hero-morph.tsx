@@ -182,6 +182,7 @@ export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: 
         }
       } else if (t < T_END) {
         // cross-fade pixels out and crisp type in, eased, both set this frame
+        host.style.setProperty('--start-op', '0'); // in case a slow frame skipped the flight
         const k = easeInOut((t - T_HOLD) / (T_END - T_HOLD));
         canvas.style.opacity = String(1 - k);
         if (finalEl) finalEl.style.opacity = String(k);
@@ -192,6 +193,7 @@ export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: 
       } else {
         ctx.clearRect(0, 0, w, h);
         canvas.style.opacity = '0';
+        host.style.setProperty('--start-op', '0');
         if (finalEl) finalEl.style.opacity = '1';
         runningRef.current = false;
         window.removeEventListener('resize', onResize);
