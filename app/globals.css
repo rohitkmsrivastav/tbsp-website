@@ -278,8 +278,13 @@ main {
 /* The hero morph. "Code" pixelates and its squares fly into place as "Ship"
    on a canvas overlay; the DOM always holds the final word. */
 .morph { cursor: default; display: inline-block; position: relative; }
-.morph.is-animating .morph-final { opacity: 0; }
+.morph-final { opacity: 0; }
+.morph::before { content: attr(data-from); line-height: inherit; opacity: var(--start-op, 1); position: absolute; right: 0; top: 0; white-space: nowrap; }
 .morph-canvas { left: 0; opacity: 0; pointer-events: none; position: absolute; top: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .morph-final { opacity: 1; }
+  .morph::before { display: none; }
+}
 .hero-lede {
   max-width: 730px;
   font-size: 1.1875rem;

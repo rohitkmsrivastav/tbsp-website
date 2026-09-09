@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 // "Code" breaks into square pixels that fly into place as "Ship".
 // The DOM always carries the final word, so the headline reads correctly
@@ -46,14 +46,18 @@ function rasterise(word: string, font: string, cell: number, width: number, heig
 export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: string }) {
   const hostRef = useRef<HTMLSpanElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [animating, setAnimating] = useState(false);
   const runningRef = useRef(false);
 
   const run = useCallback(async () => {
     const host = hostRef.current;
     const canvas = canvasRef.current;
     if (!host || !canvas || runningRef.current) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const f = host.querySelector<HTMLElement>('.morph-final');
+      if (f) f.style.opacity = '1';
+      host.style.setProperty('--start-op', '0');
+      return;
+    }
     runningRef.current = true;
 
     await document.fonts.ready;
@@ -123,15 +127,19 @@ export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: 
     }
 
     // timeline (ms)
-    const T_CRISP = 380; // show the original word as type
-    const T_PIX = 620; // hold it pixelated
+    const T_PIX = 620; // the DOM word gives way to its pixel version
     const T_FLY = 1750; // pixels arrive
     const T_HOLD = 1950; // hold pixelated final word
-    const T_END = 2200; // fade to crisp type
+    const T_END = 2280; // cross-fade to crisp type
 
     const finalEl = host.querySelector<HTMLElement>('.morph-final');
-    setAnimating(true);
+    // The DOM shows the original word itself until the pixelation moment, so
+    // there is no hand-off to see. Everything below is set in the same frame
+    // as the canvas draw; nothing waits on a React render.
+    host.style.setProperty('--start-op', '1');
+    if (finalEl) finalEl.style.opacity = '0';
     canvas.style.opacity = '1';
+    ctx.clearRect(0, 0, w, h);
     const start = performance.now();
     let aborted = false;
     const onResize = () => {
@@ -144,38 +152,37 @@ export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: 
       if (aborted) {
         ctx.clearRect(0, 0, w, h);
         canvas.style.opacity = '0';
-        if (finalEl) finalEl.style.opacity = '';
-        setAnimating(false);
+        host.style.setProperty('--start-op', '0');
+        if (finalEl) finalEl.style.opacity = '1';
         runningRef.current = false;
         return;
       }
       ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = `rgb(${INK.join(',')})`;
-      if (t < T_CRISP) {
-        ctx.font = font;
-        ctx.textBaseline = 'alphabetic';
-        ctx.fillText(from, 0, ascent);
-      } else if (t < T_PIX) {
-        for (const p of particles) ctx.fillRect(p.x0, p.y0, cell - 0.5, cell - 0.5);
+      if (t < T_PIX) {
+        // the DOM word is on screen; the canvas stays empty
       } else if (t < T_HOLD) {
-        const span = T_FLY - T_PIX;
-        for (const p of particles) {
-          const local = Math.min(1, Math.max(0, (t - T_PIX - p.delay * span) / (span * 0.65)));
-          const e = easeInOut(local);
-          const x = p.x0 + (p.x1 - p.x0) * e;
-          // a little lift on the way, so the flight reads as movement not a slide
-          const arc = Math.sin(Math.PI * e) * (8 + p.heat * 10);
-          const y = p.y0 + (p.y1 - p.y0) * e - arc;
-          const glow = p.heat * Math.sin(Math.PI * e);
-          const col = INK.map((v, i) => Math.round(v + (AMBER[i] - v) * glow));
-          const alpha = p.fade ? 1 - e : 1;
-          ctx.fillStyle = `rgba(${col.join(',')},${alpha})`;
-          ctx.fillRect(x, y, cell - 0.5, cell - 0.5);
+        if (host.style.getPropertyValue('--start-op') !== '0') host.style.setProperty('--start-op', '0');
+        if (t < T_PIX + 240) {
+          for (const p of particles) ctx.fillRect(p.x0, p.y0, cell - 0.5, cell - 0.5);
+        } else {
+          const span = T_FLY - T_PIX - 240;
+          for (const p of particles) {
+            const local = Math.min(1, Math.max(0, (t - T_PIX - 240 - p.delay * span) / (span * 0.65)));
+            const e = easeInOut(local);
+            const x = p.x0 + (p.x1 - p.x0) * e;
+            const arc = Math.sin(Math.PI * e) * (8 + p.heat * 10);
+            const y = p.y0 + (p.y1 - p.y0) * e - arc;
+            const glow = p.heat * Math.sin(Math.PI * e);
+            const col = INK.map((v, i) => Math.round(v + (AMBER[i] - v) * glow));
+            const alpha = p.fade ? 1 - e : 1;
+            ctx.fillStyle = `rgba(${col.join(',')},${alpha})`;
+            ctx.fillRect(x, y, cell - 0.5, cell - 0.5);
+          }
         }
       } else if (t < T_END) {
-        // cross-fade: pixels out, crisp type in, driven per frame so the
-        // reveal does not depend on a CSS transition firing.
-        const k = (t - T_HOLD) / (T_END - T_HOLD);
+        // cross-fade pixels out and crisp type in, eased, both set this frame
+        const k = easeInOut((t - T_HOLD) / (T_END - T_HOLD));
         canvas.style.opacity = String(1 - k);
         if (finalEl) finalEl.style.opacity = String(k);
         for (const p of particles) {
@@ -185,8 +192,7 @@ export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: 
       } else {
         ctx.clearRect(0, 0, w, h);
         canvas.style.opacity = '0';
-        if (finalEl) finalEl.style.opacity = '';
-        setAnimating(false);
+        if (finalEl) finalEl.style.opacity = '1';
         runningRef.current = false;
         window.removeEventListener('resize', onResize);
         return;
@@ -202,14 +208,12 @@ export function HeroMorph({ from = 'Code', to = 'Ship' }: { from?: string; to?: 
   }, [run]);
 
   return (
-    <span
-      ref={hostRef}
-      className={animating ? 'morph is-animating' : 'morph'}
-      onClick={run}
-      title="Replay"
-    >
+    <span ref={hostRef} className="morph" data-from={from} onClick={run} title="Replay">
       <span className="morph-final">{to}</span>
       <canvas ref={canvasRef} className="morph-canvas" aria-hidden="true" />
+      <noscript>
+        <style>{`.morph::before{display:none}.morph-final{opacity:1}`}</style>
+      </noscript>
     </span>
   );
 }
