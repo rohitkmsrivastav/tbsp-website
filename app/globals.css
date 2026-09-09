@@ -275,11 +275,15 @@ main {
   text-decoration-thickness: 4px;
   text-underline-offset: 9px;
 }
-.hero h1 .strike {
-  color: var(--muted);
-  text-decoration: line-through;
-  text-decoration-color: var(--oxide);
-  text-decoration-thickness: 4px;
+/* The hero morph. "Code" pixelates and its squares fly into place as "Ship"
+   on a canvas overlay; the DOM always holds the final word. */
+.morph { cursor: default; display: inline-block; position: relative; }
+.morph-final { opacity: 0; }
+.morph::before { content: attr(data-from); line-height: inherit; opacity: var(--start-op, 1); position: absolute; right: 0; top: 0; white-space: nowrap; }
+.morph-canvas { left: 0; opacity: 0; pointer-events: none; position: absolute; top: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .morph-final { opacity: 1; }
+  .morph::before { display: none; }
 }
 .hero-lede {
   max-width: 730px;
@@ -1106,9 +1110,6 @@ footer a {
   }
   .hero h1 em {
     text-underline-offset: 6px;
-    text-decoration-thickness: 3px;
-  }
-  .hero h1 .strike {
     text-decoration-thickness: 3px;
   }
   .eyebrow,

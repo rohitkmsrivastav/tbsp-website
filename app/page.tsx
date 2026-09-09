@@ -1,3 +1,4 @@
+import { HeroMorph } from './hero-morph';
 import { InterfacesSwitcher } from './interfaces-switcher';
 import { Arrow, modules, PageFrame, siteHref, PageCta } from './site';
 
@@ -96,7 +97,7 @@ export default function Home() {
             AI-assisted software delivery for enterprise teams
           </p>
           <h1>
-            <s className="strike">Code</s> Ship the way
+            <HeroMorph from="Code" to="Ship" /> the way
             <br className="desktop-break" /> your best engineers do.
           </h1>
           <p className="hero-lede">
