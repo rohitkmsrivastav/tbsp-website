@@ -16,11 +16,7 @@ import { modules } from './site';
 export const specModule: ModulePageData = {
   module: modules[0],
   subtitle: 'PLAN AND SPECIFY',
-  title: (
-    <>
-      Turn a thin ticket into a spec <em>you can build from</em>.
-    </>
-  ),
+  title: 'Turn a thin ticket into a spec you can build from.',
   metaTitle: 'TBSP Spec — Turn a thin ticket into a spec you can build from',
   lede: 'TBSP Spec reads the ticket, the repo and the ADRs, asks the questions the ticket left out, and writes a specification, or PRD, with acceptance criteria, affected services and open questions.',
   startedBy: [
@@ -96,7 +92,7 @@ export const specModule: ModulePageData = {
           ],
         },
         {
-          label: 'Affected services',
+          label: 'Affected services · blast radius',
           rows: [],
           chips: ['identity-service', 'jobs worker', 'audit-log', 'account page'],
         },
@@ -141,7 +137,7 @@ export const specModule: ModulePageData = {
       },
       {
         name: 'Write the spec',
-        copy: 'Affected services, four acceptance criteria and two open questions with owners. Each statement carries its source.',
+        copy: 'The blast radius as affected services and dependencies. Four acceptance criteria and two open questions with owners. Each statement carries its source.',
         source: 'Specification v2',
       },
       {
@@ -154,8 +150,8 @@ export const specModule: ModulePageData = {
   },
 
   control: {
-    title: 'Spec drafts. A person decides.',
-    lede: 'Spec does not replace product judgment, customer discovery, prioritisation or architecture ownership. It brings the context forward and structures the path to an approved spec.',
+    title: 'Spec writes the draft. Your people decide.',
+    lede: 'Spec does not decide what to build, what comes first, or who owns the architecture. It brings the context to the table and puts a draft in front of the people who do.',
     columns: ['Spec does', 'A person decides'],
     rows: [
       [
@@ -163,7 +159,7 @@ export const specModule: ModulePageData = {
         'Whether the change should be made at all.',
       ],
       [
-        'Names the affected services and dependencies.',
+        'Maps the blast radius: the affected services and their dependencies.',
         'Scope, priority and the trade-offs.',
       ],
       [
@@ -195,7 +191,7 @@ export const specModule: ModulePageData = {
       ],
       [
         'Who approves',
-        'A named owner you designate. The approval is a step in the playbook, enforced server-side, so it cannot be prompted away. Spec holds the work until the approval is recorded with the spec.',
+        'A named owner you designate. The approval is a step in the playbook, enforced server-side. Spec holds the work until the approval is recorded with the spec.',
       ],
     ],
     links: [
@@ -205,8 +201,8 @@ export const specModule: ModulePageData = {
   },
 
   handoff: {
-    title: 'Then Code takes over.',
-    lede: 'The approved spec, the affected services and the clarification log arrive in Code as one work item. No re-briefing.',
+    title: 'The approved spec goes to Code.',
+    lede: 'The spec, the affected services and the clarification log arrive in Code as one work item. Nobody has to explain the ticket again.',
     done: ['Spec'],
     active: 'Code',
     cells: [
@@ -251,7 +247,7 @@ export const specModule: ModulePageData = {
   ],
 
   cta: {
-    title: 'Bring one underspecified ticket.',
+    title: 'Bring one ticket without acceptance criteria.',
     copy: 'One real ticket in a real repository, with read access to the repo, the docs and the ticket. You get back a spec to compare with what your team would have written.',
   },
 };
