@@ -32,7 +32,7 @@ export const specModule: ModulePageData = {
     title: 'The ticket that came in, and the spec that went out.',
     lede: 'A ticket as it arrived, and the specification Spec wrote from it: acceptance criteria, affected services and open questions, waiting on the platform lead.',
     ariaLabel:
-      'TBSP Spec output for EX-104: the ticket as filed on the left, the specification Spec wrote on the right',
+      'TBSP Spec output for EX-104: the ticket as it arrived and the specification Spec wrote from it',
     topline: ['TBSP Spec · EX-104', 'Sources: ticket · repo · ADR-006 · ADR-011'],
     input: {
       label: 'Ticket · EX-104 · Feature',
