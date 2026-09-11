@@ -30,7 +30,7 @@ export const specModule: ModulePageData = {
 
   artefact: {
     title: 'The ticket that came in, and the spec that went out.',
-    lede: 'EX-104 as it left Spec. The ticket as filed on the left. On the right, the specification with its acceptance criteria, affected services and open questions, waiting on the platform lead.',
+    lede: 'A ticket as it arrived, and the specification Spec wrote from it: acceptance criteria, affected services and open questions, waiting on the platform lead.',
     ariaLabel:
       'TBSP Spec output for EX-104: the ticket as filed on the left, the specification Spec wrote on the right',
     topline: ['TBSP Spec · EX-104', 'Sources: ticket · repo · ADR-006 · ADR-011'],
@@ -112,13 +112,13 @@ export const specModule: ModulePageData = {
       ],
       gate: 'Platform lead approves before Code starts.',
       alsoIn:
-        'Also in the document: scope, edge cases, migration, non-functional requirements, clarification log, sources.',
+        'Also in the spec: scope, edge cases, migration, non-functional requirements.',
     },
   },
 
   walkthrough: {
     title: 'Five steps from ticket to approved spec.',
-    lede: 'Trimmed from the full workflow. Every statement names its source.',
+    lede: 'What happens between a ticket arriving and a spec being approved.',
     steps: [
       {
         name: 'Read the ticket',
@@ -137,7 +137,7 @@ export const specModule: ModulePageData = {
       },
       {
         name: 'Write the spec',
-        copy: 'The blast radius as affected services and dependencies. Four acceptance criteria and two open questions with owners. Each statement carries its source.',
+        copy: 'The blast radius as affected services and dependencies. Four acceptance criteria and two open questions with owners.',
         source: 'Specification v2',
       },
       {
@@ -167,7 +167,7 @@ export const specModule: ModulePageData = {
         'The answers, and which constraints are real.',
       ],
       [
-        'Drafts the spec and the acceptance criteria, each with its source.',
+        'Drafts the spec and the acceptance criteria.',
         'Final architecture ownership.',
       ],
       [
@@ -214,7 +214,7 @@ export const specModule: ModulePageData = {
       },
       {
         to: 'To Review',
-        copy: 'The spec, the decisions behind it and the tests travel with the change to the reviewer as one record. AC-1 to AC-4 become the checklist Review reports against: met, partially met, not met. On this site, Review finds AC-2 has no test.',
+        copy: 'The spec, the decisions behind it and the tests reach the reviewer as one record. AC-1 to AC-4 become the checklist Review reports against: met, partially met, not met.',
         href: '/products/review',
         label: 'Explore Review',
       },
