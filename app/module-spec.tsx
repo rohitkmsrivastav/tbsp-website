@@ -137,7 +137,7 @@ export const specModule: ModulePageData = {
       },
       {
         name: 'Ask the human',
-        copy: '“Who may request an export, and which fields?” Answer recorded from the product manager who filed the ticket: users with the export permission; profile fields, no payment data.',
+        copy: '“Who may request an export, and which fields?” The product manager who filed the ticket answers: users with the export permission; profile fields, no payment data.',
         source: 'Clarification log',
       },
       {

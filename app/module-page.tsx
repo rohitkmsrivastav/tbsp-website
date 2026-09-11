@@ -208,20 +208,21 @@ export function ModulePage({ data }: { data: ModulePageData }) {
           <h2>{data.walkthrough.title}</h2>
           <p>{data.walkthrough.lede}</p>
         </div>
-        <dl className="fit-ledger">
+        <ol
+          className="walk"
+          aria-label={`${mod.name} walkthrough, ${data.walkthrough.steps.length} steps`}
+        >
           {data.walkthrough.steps.map((step, index) => (
-            <div key={step.name}>
-              <dt className={step.gate ? 'has-gate' : undefined}>
-                {String(index + 1).padStart(2, '0')} · {step.name}
-                {step.gate && <GateBadge />}
-              </dt>
-              <dd>
-                {step.copy}
-                <span className="step-source">{step.source}</span>
-              </dd>
-            </div>
+            <li key={step.name} className={step.gate ? 'gate' : undefined}>
+              <b aria-hidden="true">
+                {step.gate ? 'H' : String(index + 1).padStart(2, '0')}
+              </b>
+              <strong>{step.name}</strong>
+              <p>{step.copy}</p>
+              <small>{step.source}</small>
+            </li>
           ))}
-        </dl>
+        </ol>
       </section>
 
       <section className="module-facts-band">
