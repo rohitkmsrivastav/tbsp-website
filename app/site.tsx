@@ -172,11 +172,13 @@ export function PageIntro({
   title,
   lede,
   action,
+  secondary,
 }: {
   eyebrow: string;
-  title: string;
+  title: ReactNode;
   lede: string;
   action?: { label: string; href: string };
+  secondary?: { label: string; href: string };
 }) {
   return (
     <section className="page-intro page-shell">
@@ -188,6 +190,14 @@ export function PageIntro({
           {action && (
             <a className="button button-accent" href={siteHref(action.href)}>
               {action.label} <Arrow />
+            </a>
+          )}
+          {secondary && (
+            <a
+              className="page-intro-secondary"
+              href={siteHref(secondary.href)}
+            >
+              {secondary.label} <span aria-hidden="true">↓</span>
             </a>
           )}
         </div>
