@@ -38,7 +38,6 @@ export type ModulePageData = {
   startedBy: string[];
   startedFor: string;
   artefact: {
-    index: string;
     title: string;
     lede: string;
     ariaLabel: string;
@@ -114,7 +113,6 @@ function Artefact({ data }: { data: ModulePageData['artefact'] }) {
   return (
     <section className="module-output" id="output">
       <div className="page-shell">
-        <p className="section-index section-index-light">{data.index}</p>
         <div className="section-heading inverse">
           <h2>{data.title}</h2>
           <p>{data.lede}</p>
@@ -208,7 +206,6 @@ export function ModulePage({ data }: { data: ModulePageData }) {
       <Artefact data={data.artefact} />
 
       <section className="module-section page-shell" id="walkthrough">
-        <p className="section-index">Walkthrough</p>
         <div className="section-heading">
           <h2>{data.walkthrough.title}</h2>
           <p>{data.walkthrough.lede}</p>
@@ -232,7 +229,6 @@ export function ModulePage({ data }: { data: ModulePageData }) {
 
       <section className="module-control">
         <div className="page-shell">
-          <p className="section-index">Control</p>
           <div className="section-heading">
             <h2>{data.control.title}</h2>
             <p>{data.control.lede}</p>
@@ -261,7 +257,6 @@ export function ModulePage({ data }: { data: ModulePageData }) {
       </section>
 
       <section className="module-section page-shell" id="fit">
-        <p className="section-index">Reads and writes</p>
         <div className="section-heading">
           <h2>{data.connects.title}</h2>
           <p>{data.connects.lede}</p>
@@ -284,7 +279,6 @@ export function ModulePage({ data }: { data: ModulePageData }) {
       </section>
 
       <section className="module-section page-shell" id="next">
-        <p className="section-index">Next</p>
         <div className="section-heading">
           <h2>{data.handoff.title}</h2>
           <p>{data.handoff.lede}</p>
@@ -325,7 +319,6 @@ export function ModulePage({ data }: { data: ModulePageData }) {
 
       <section className="buyer-faq page-shell">
         <div>
-          <p className="section-index">Before you start</p>
           <h2>A few practical answers.</h2>
           <p className="faq-lede">{data.faqLede}</p>
         </div>

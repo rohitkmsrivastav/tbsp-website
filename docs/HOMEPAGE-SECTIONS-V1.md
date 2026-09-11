@@ -130,6 +130,8 @@ Added 2026-09-11 with `/products/spec`. Spec, Code, Review and On-call render th
 
 Band rhythm: paper, paper-2, dark, paper, paper-2, paper, paper, paper, paper-2 closing, dark footer. `.module-section + .module-section` draws a hairline between consecutive paper sections.
 
+No section indices on module pages (removed 2026-09-11: six labels between the eyebrow and the headings read as noise). The heading grid and the hairlines carry the structure; the intro eyebrow is the page's only label line.
+
 Copy rules that the template assumes: one story across the site (EX-104), the artefact shows the homepage card's promise literally, no status marks or vendor names, "PRD" once for the PM reader. The `.gate-badge` is decorative; the text beside it names the decision.
 
 ---

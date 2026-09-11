@@ -33,7 +33,6 @@ export const specModule: ModulePageData = {
     'For the ticket that lacks acceptance criteria, scope or technical grounding, before senior-engineer time is spent finding out.',
 
   artefact: {
-    index: 'The output',
     title: 'The ticket that came in, and the spec that went out.',
     lede: 'EX-104 as it left Spec. The ticket as filed on the left. On the right, the specification with its acceptance criteria, affected services and open questions, waiting on the platform lead.',
     ariaLabel:
