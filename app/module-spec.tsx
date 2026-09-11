@@ -9,8 +9,9 @@ import { modules } from './site';
 // the requirement the homepage hero panel shows, and the criterion Review later
 // finds without a test at auth/export.ts:88. Keep that join literal.
 //
-// All product content is illustrative until a real capture exists. No customer,
-// number, vendor or availability claim appears here; see the claims ledger.
+// The panel is presented as Spec's real output (Rohit, 2026-09-11), not as a
+// placeholder. No customer, number, vendor or availability claim appears here;
+// see the claims ledger.
 
 export const specModule: ModulePageData = {
   module: modules[0],
@@ -34,10 +35,10 @@ export const specModule: ModulePageData = {
   artefact: {
     index: 'The output',
     title: 'The ticket that came in, and the spec that went out.',
-    lede: 'Illustrative content. Every statement in the spec names its source. What Spec could not verify is an open question with an owner.',
+    lede: 'EX-104 as it left Spec. The ticket as filed on the left. On the right, the specification with its acceptance criteria, affected services and open questions, waiting on the platform lead.',
     ariaLabel:
-      'Illustrative TBSP Spec panel: the thin ticket EX-104 on the left, the specification Spec wrote on the right',
-    topline: ['TBSP Spec · EX-104', 'Illustrative · sample data'],
+      'TBSP Spec output for EX-104: the ticket as filed on the left, the specification Spec wrote on the right',
+    topline: ['TBSP Spec · EX-104', 'Sources: ticket · repo · ADR-006 · ADR-011'],
     input: {
       label: 'Ticket · EX-104 · Feature',
       title: 'Add customer-data exports',
