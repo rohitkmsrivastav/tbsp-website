@@ -50,7 +50,7 @@ function TerminalPanel() {
       <pre>
         <code>
           <span className="t-prompt">$</span> tbsp review EX-104{'\n'}
-          <span className="t-dim">reading</span>  spec EX-104 · 3 acceptance criteria{'\n'}
+          <span className="t-dim">reading</span>  spec EX-104 · 4 acceptance criteria{'\n'}
           <span className="t-dim">reading</span>  PR #482 · 14 files · 142 tests passed{'\n'}
           <span className="t-dim">tracing</span>  changes → criteria{'\n'}
           {'\n'}

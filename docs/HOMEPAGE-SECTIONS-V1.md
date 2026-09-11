@@ -114,6 +114,26 @@ Darker ink `#0c121a`. Wordmark inverted, four link columns with condensed headin
 
 ---
 
+## Module page template — `app/module-page.tsx`
+
+Added 2026-09-11 with `/products/spec`. Spec, Code, Review and On-call render through one component, `ModulePage`, from a `ModulePageData` object (Spec's is `app/module-spec.tsx`). Adding a module page is adding a data file and one entry in `modulePages` in `app/[...slug]/page.tsx`. Block order is fixed so the four pages read as one product:
+
+1. **Intro** — `PageIntro` with eyebrow `MODULE 01 / SPEC · PLAN AND SPECIFY` (the workflow-family name from the brand context), the module card's promise as h1 with an amber-underlined phrase (`.page-intro h1 em`), lede, "Book a demo" button, "See the walkthrough" text link (`.page-intro-secondary`).
+2. **Started by** — `.module-strip`, a paper-2 band: label, persona chips (`.module-strip-chips`), one sentence on when to start.
+3. **The output** — `.module-output`, the only dark band. One `.ui` panel with the amber offset shadow (`.module-panel`): topline, then `.module-panel-body` with the input on the left as the raised plate (`.ticket-plate`, with a "not in the ticket" list) and the artefact on the right as a document (`.record`: topline with the amber "awaiting approval" state, hairline `.record-section`s, numbered `.record-ac` rows, `.record-chips` for sources and services, `.record-owner` on open questions, `.record-foot` with the gate badge). This is the page's one illustration.
+4. **Walkthrough** — `dl.fit-ledger` reused: `dt` "01 · Step name", `dd` one sentence plus `.step-source`. The approval row's `dt` carries `.gate-badge` (`dt.has-gate`).
+5. **Inputs and outputs** — `.module-facts-band` (paper-2) with a three-cell hairline band `.module-facts`; the third cell is the human decision with the `.gate` wash.
+6. **Fit and control** — `dl.fit-ledger` again, module-specific Reads / Writes / Who approves, then `.fit-links`.
+7. **Next** — `.stage-row` (the rule with punched nodes on paper: done in ink with a check, active in amber) and `.handoff-cells` pointing to the next modules.
+8. **Before you start** — `.buyer-faq` and `.faq-list` reused, five questions.
+9. **Closing** — `PageCta` with a module-specific title and copy.
+
+Band rhythm: paper, paper-2, dark, paper, paper-2, paper, paper, paper, paper-2 closing, dark footer. `.module-section + .module-section` draws a hairline between consecutive paper sections.
+
+Copy rules that the template assumes: one story across the site (EX-104), the artefact shows the homepage card's promise literally, no status marks or vendor names, "PRD" once for the PM reader. The `.gate-badge` is decorative; the text beside it names the decision.
+
+---
+
 ## Removed on 2026-09-09, do not reintroduce without a reason
 
 - The delivery gap (three-cell problem statement): repeated the hero.

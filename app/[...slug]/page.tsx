@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DemoBriefForm } from '../demo-brief-form';
 import { IntegrationMatrix, SecurityOverview } from '../enterprise-details';
+import { ModulePage, type ModulePageData } from '../module-page';
+import { specModule } from '../module-spec';
 import {
   Arrow,
   PageCta,
@@ -25,6 +27,13 @@ type PageConfig = {
   sections: Section[];
 };
 
+// Module pages built on the module-page template. Each entry is one data file;
+// Code, Review and On-call move here from productPages as their content is
+// rewritten for the EX-104 story.
+const modulePages: Record<string, ModulePageData> = {
+  'products/spec': specModule,
+};
+
 const productPages: Record<
   string,
   PageConfig & {
@@ -32,52 +41,6 @@ const productPages: Record<
     artifact: Array<[string, string]>;
   }
 > = {
-  'products/spec': {
-    eyebrow: 'MODULE / SPEC',
-    title: 'Turn an unclear request into development-ready work.',
-    lede: 'TBSP Spec explores the existing system, identifies missing information, and produces requirements and acceptance criteria grounded in what the software can support.',
-    stages: [
-      [
-        'Request',
-        'Start with a ticket, conversation, or incomplete product requirement.',
-      ],
-      [
-        'Explore',
-        'Inspect relevant code, architecture, documentation, and prior decisions.',
-      ],
-      [
-        'Clarify',
-        'Surface assumptions, contradictions, dependencies, and unanswered questions.',
-      ],
-      [
-        'Specify',
-        'Produce a reviewable specification and measurable acceptance criteria.',
-      ],
-      ['Approve', 'A named owner confirms the work before it moves to Code.'],
-    ],
-    artifact: [
-      ['Source', 'Jira / ENG-2841'],
-      [
-        'Missing information',
-        'Expected failover behaviour for active sessions',
-      ],
-      [
-        'Resolved constraint',
-        'Existing token replication supports cross-region recovery',
-      ],
-      [
-        'Output',
-        'Specification, acceptance criteria, dependency map, approval record',
-      ],
-    ],
-    sections: [
-      {
-        label: 'WHY SPEC',
-        title: 'Ground the requirement in the system that must deliver it.',
-        copy: 'The module connects product intent to the architecture, dependencies, and operational constraints already present in a brownfield system.',
-      },
-    ],
-  },
   'products/code': {
     eyebrow: 'MODULE / CODE',
     title: 'Build and debug with the system in view.',
@@ -678,7 +641,12 @@ const pages: Record<string, PageConfig> = {
   },
 };
 
-const routeKeys = [...Object.keys(productPages), ...Object.keys(pages), 'demo'];
+const routeKeys = [
+  ...Object.keys(modulePages),
+  ...Object.keys(productPages),
+  ...Object.keys(pages),
+  'demo',
+];
 
 export const dynamicParams = false;
 
@@ -693,6 +661,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const key = slug.join('/');
+  const modulePage = modulePages[key];
+  if (modulePage)
+    return { title: modulePage.metaTitle, description: modulePage.lede };
   const page = productPages[key] ?? pages[key];
   if (key === 'demo')
     return {
@@ -877,6 +848,7 @@ export default async function CatchAllPage({
   const { slug } = await params;
   const key = slug.join('/');
   if (key === 'demo') return <DemoPage />;
+  if (modulePages[key]) return <ModulePage data={modulePages[key]} />;
   if (productPages[key]) return <ProductPage config={productPages[key]} />;
   if (pages[key]) return <GenericPage config={pages[key]} routeKey={key} />;
   notFound();

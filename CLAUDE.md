@@ -33,7 +33,9 @@ Node, pnpm and `gh` are installed through Homebrew. In non-login shells prefix `
 |---|---|
 | `app/page.tsx` | The homepage. Section data lives at the top of the file, sections in order below. |
 | `app/site.tsx` | Shared pieces: `modules` data (used by cards, nav and footer), `siteHref`, `Arrow`, `SiteHeader`, `SiteFooter`, `PageFrame`, `PageIntro`, `PageCta`, `TrustStrip`. |
-| `app/[...slug]/page.tsx` | Every inner page, driven by config objects keyed by path: products, docs, resources, platform, security, integrations, surfaces, enterprise, about, demo, privacy. Add a page by adding a config entry. |
+| `app/[...slug]/page.tsx` | Every inner page, driven by config objects keyed by path: products, docs, resources, platform, security, integrations, surfaces, enterprise, about, demo, privacy. Add a page by adding a config entry. Module pages route through `modulePages` to the template below. |
+| `app/module-page.tsx` | The module-page template (`ModulePage`, `ModulePageData`). One component for Spec, Code, Review and On-call; each page is a data file. |
+| `app/module-spec.tsx` | Spec's data. The visitor's question is the first comment. Code, Review and On-call get the same shape when they migrate. |
 | `app/interfaces-switcher.tsx` | The only client component. The Interfaces tabs and the three panel illustrations. |
 | `app/layout.tsx` | Root layout, metadata, Google Fonts link for IBM Plex. |
 | `app/globals.css` | The whole design system. `:root` tokens are the source of truth for colour. |
@@ -46,6 +48,7 @@ Node, pnpm and `gh` are installed through Homebrew. In non-login shells prefix `
 - `docs/HOMEPAGE-SECTIONS-V1.md` — how each homepage section is built, with class names to reuse and the copy pattern it follows. Read before building a new section or page.
 - `docs/BRAND-LANGUAGE-V1.md` — words and claims. `docs/WEBSITE-IA-V1.md` — page structure. `docs/HOMEPAGE-CONCEPT-V1.md` and `docs/SPEC-PAGE-CONCEPT-V1.md` — page briefs.
 - `../context/EVIDENCE-AND-CLAIMS.md` in the parent folder — what may and may not be said publicly. Binding.
+- `../Brand context — TBSP.md` in the parent folder — audience (the enterprise developer is the primary daily user; PMs, BAs, SREs enter through specific workflows), the four public workflow-family names (Plan and Specify, Develop, Code Review, Debug and Investigate), what differentiates TBSP (enforced server-side playbooks and a durable record, not human approval or shared context alone), the voice section, and the DO NOT PUBLISH lists. Read before writing any page copy.
 
 ## Design rules that decide most things
 
