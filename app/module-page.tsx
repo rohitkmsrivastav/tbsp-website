@@ -63,7 +63,12 @@ export type ModulePageData = {
     lede: string;
     steps: Array<{ name: string; copy: string; source: string; gate?: boolean }>;
   };
-  facts: Array<{ label: string; copy: string; gate?: boolean }>;
+  control: {
+    title: string;
+    lede: string;
+    columns: [string, string]; // left: what the module does; right: what a person decides
+    rows: Array<[string, string]>;
+  };
   connects: {
     title: string;
     lede: string;
@@ -225,25 +230,38 @@ export function ModulePage({ data }: { data: ModulePageData }) {
         </ol>
       </section>
 
-      <section className="module-facts-band">
+      <section className="module-control">
         <div className="page-shell">
-          <p className="section-index">Inputs and outputs</p>
-          <div className="module-facts">
-            {data.facts.map((fact) => (
-              <div className={fact.gate ? 'gate' : undefined} key={fact.label}>
-                <small>
-                  {fact.gate && <GateBadge />}
-                  {fact.label}
-                </small>
-                <p>{fact.copy}</p>
-              </div>
-            ))}
+          <p className="section-index">Control</p>
+          <div className="section-heading">
+            <h2>{data.control.title}</h2>
+            <p>{data.control.lede}</p>
+          </div>
+          <div className="split" role="table" aria-label={data.control.title}>
+            <div className="split-head" role="columnheader">
+              {data.control.columns[0]}
+            </div>
+            <div className="split-head split-right" role="columnheader">
+              {data.control.columns[1]}
+            </div>
+            {data.control.rows.map(([left, right], index) => {
+              const last = index === data.control.rows.length - 1;
+              return (
+                <div className="split-row" role="row" key={left}>
+                  <p role="cell">{left}</p>
+                  <p role="cell" className={last ? 'split-right is-gate' : 'split-right'}>
+                    {right}
+                    {last && <GateBadge />}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <section className="module-section page-shell" id="fit">
-        <p className="section-index">Fit and control</p>
+        <p className="section-index">Reads and writes</p>
         <div className="section-heading">
           <h2>{data.connects.title}</h2>
           <p>{data.connects.lede}</p>

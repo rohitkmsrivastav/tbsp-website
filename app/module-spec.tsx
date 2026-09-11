@@ -154,21 +154,33 @@ export const specModule: ModulePageData = {
     ],
   },
 
-  facts: [
-    {
-      label: 'Inputs',
-      copy: 'A ticket or request. Read access to the ticket system, the repo, its ADRs and docs. Answers to the questions Spec asks.',
-    },
-    {
-      label: 'Outputs',
-      copy: 'The spec: acceptance criteria, affected services, open questions with owners. The clarification log, kept with it.',
-    },
-    {
-      label: 'A person decides',
-      copy: 'Whether to make the change at all, and its scope and priority. The answers to the clarifying questions. Approval of the spec before Code starts.',
-      gate: true,
-    },
-  ],
+  control: {
+    title: 'Spec drafts. A person decides.',
+    lede: 'Spec does not replace product judgment, customer discovery, prioritisation or architecture ownership. It brings the context forward and structures the path to an approved spec.',
+    columns: ['Spec does', 'A person decides'],
+    rows: [
+      [
+        'Reads the ticket, the repo, the ADRs and the docs.',
+        'Whether the change should be made at all.',
+      ],
+      [
+        'Names the affected services and dependencies.',
+        'Scope, priority and the trade-offs.',
+      ],
+      [
+        'Asks the product and technical questions the ticket left open.',
+        'The answers, and which constraints are real.',
+      ],
+      [
+        'Drafts the spec and the acceptance criteria, each with its source.',
+        'Final architecture ownership.',
+      ],
+      [
+        'Routes the document to the named approver and holds the work.',
+        'Approval. Nothing moves to Code before it.',
+      ],
+    ],
+  },
 
   connects: {
     title: 'What Spec reads, writes and waits for.',

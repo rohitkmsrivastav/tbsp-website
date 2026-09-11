@@ -122,8 +122,8 @@ Added 2026-09-11 with `/products/spec`. Spec, Code, Review and On-call render th
 2. **Started by** — `.module-strip`, a paper-2 band: label "Who uses it", persona chips (`.module-strip-chips`), one sentence on when to use it.
 3. **The output** — `.module-output`, the only dark band. One `.ui` panel with the amber offset shadow (`.module-panel`): topline, then `.module-panel-body` with the input on the left as the raised plate (`.ticket-plate`, with a "not in the ticket" list) and the artefact on the right as a document (`.record`: topline with the amber "awaiting approval" state, hairline `.record-section`s, numbered `.record-ac` rows, `.record-chips` for sources and services, `.record-owner` on open questions, `.record-foot` with the gate badge). This is the page's one illustration.
 4. **Walkthrough** — `ol.walk`, the rule with punched nodes on paper: five hairline cells, each with its node, step name, one sentence and a source line; the approval node is amber with the H. Stacks to a hairline list below 980px.
-5. **Inputs and outputs** — `.module-facts-band` (paper-2) with a three-cell hairline band `.module-facts`; the third cell is the human decision with the `.gate` wash.
-6. **Fit and control** — `dl.fit-ledger` again, module-specific Reads / Writes / Who approves, then `.fit-links`.
+5. **Control** — `.module-control` (paper-2): heading grid, then `.split`, a two-column ledger with a hairline between and rows aligned across: what the module does on the left, what a person decides on the right, the H badge on the approval row. Stacks to label-and-answer pairs below 980px.
+6. **Reads and writes** — `dl.fit-ledger` again, module-specific Reads / Writes / Who approves, then `.fit-links`.
 7. **Next** — `.stage-row` (the rule with punched nodes on paper: done in ink with a check, active in amber) and `.handoff-cells` pointing to the next modules.
 8. **Before you start** — `.buyer-faq` and `.faq-list` reused, five questions.
 9. **Closing** — `PageCta` with a module-specific title and copy.
