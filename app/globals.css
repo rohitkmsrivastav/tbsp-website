@@ -1551,9 +1551,11 @@ footer a {
 .handoff-cells small { color:var(--muted); display:block; font:500 11px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif; letter-spacing:.09em; text-transform:uppercase; }
 .handoff-cells p { color:var(--ink); font-size:15px; line-height:1.65; margin:12px 0 16px; }
 .handoff-cells a { border-bottom:1px solid var(--line); display:inline-block; font-size:13px; font-weight:600; padding-bottom:5px; }
-@media (max-width:980px) {
+@media (max-width:1100px) {
   .module-strip-row { align-items:flex-start; flex-direction:column; gap:14px; }
-  .module-strip-row > p { text-align:left; }
+  .module-strip-row > p { max-width:none; text-align:left; }
+}
+@media (max-width:980px) {
   .module-panel-body { grid-template-columns:1fr; }
   .record { border-left:0; border-top:1px solid var(--pale-line); }
   .module-facts { grid-template-columns:1fr; }

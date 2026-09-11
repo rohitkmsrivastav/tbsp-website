@@ -26,7 +26,7 @@ export const specModule: ModulePageData = {
     'Product manager',
     'Business analyst',
     'Engineering manager',
-    'Architect in planning',
+    'Architect',
   ],
   startedFor:
     'For the ticket that lacks acceptance criteria, scope or technical grounding, before senior-engineer time is spent finding out.',

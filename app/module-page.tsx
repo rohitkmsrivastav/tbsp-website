@@ -193,7 +193,7 @@ export function ModulePage({ data }: { data: ModulePageData }) {
       <aside className="module-strip">
         <div className="page-shell module-strip-row">
           <div className="module-strip-start">
-            <span className="module-strip-label">Started by</span>
+            <span className="module-strip-label">Who uses it</span>
             <Chips items={data.startedBy} className="module-strip-chips" />
           </div>
           <p>{data.startedFor}</p>
